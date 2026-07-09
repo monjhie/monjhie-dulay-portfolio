@@ -403,9 +403,9 @@
                         </p>
                     </div>
                     <div class="card-footer">
-                        <a href="{{ asset('games/project1/First Game.html') }}"
-                           class="card-btn card-btn-primary"
-                           target="_blank">Live Demo</a>
+                        <a href="{{ asset('games/project1/first-game.html') }}"
+                        class="card-btn card-btn-primary"
+                        target="_blank">Live Demo</a>
                         <a href="#"
                            class="card-btn card-btn-outline"
                            target="_blank">GitHub</a>
