@@ -13,15 +13,21 @@
         }
 
         :root {
-            --black:  #0a0a0a;
-            --white:  #ffffff;
-            --cream:  #f5f2ee;
-            --muted:  #888;
-            --border: #e8e4df;
+            --black:   #1e1b4b;
+            --white:   #ffffff;
+            --cream:   #f5f3ff;
+            --muted:   #7c7799;
+            --border:  #e0d9ff;
+            --grad:    linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+        }
+
+        html, body {
+            min-height: 100%;
         }
 
         body {
-            background-color: var(--white);
+            background: linear-gradient(135deg, #f5f3ff 0%, #eef2ff 45%, #fdf4ff 100%);
+            background-attachment: fixed;
             color: var(--black);
             font-family: 'DM Sans', sans-serif;
             overflow-x: hidden;
@@ -63,6 +69,7 @@
             padding: 120px 6vw 100px;
             max-width: 1300px;
             margin: 0 auto;
+            background: transparent;
         }
 
         /* ══════════════════════════════════════
@@ -71,10 +78,13 @@
         .page-label {
             font-family: 'Syne', sans-serif;
             font-size: 0.7rem;
-            font-weight: 600;
+            font-weight: 700;
             letter-spacing: 0.25em;
             text-transform: uppercase;
-            color: var(--muted);
+            background: var(--grad);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             margin-bottom: 12px;
             opacity: 0;
             animation: fadeUp 0.5s 0.1s ease forwards;
@@ -94,7 +104,8 @@
         .divider {
             width: 48px;
             height: 2px;
-            background: var(--black);
+            background: var(--grad);
+            border-radius: 2px;
             margin: 28px 0 56px;
             opacity: 0;
             animation: fadeUp 0.5s 0.25s ease forwards;
@@ -150,30 +161,36 @@
 
         /* ══════════════════════════════════════
            PHOTO FRAME WITH BAND-AID DECORATION
+           (now interactive: 3D tilt + zoom on hover)
         ══════════════════════════════════════ */
         .photo-frame {
             position: relative;
             display: inline-block;
             width: 100%;
-        }
-
-        .about-photo {
-            width: 100%;
-            aspect-ratio: 3 / 4;
-            object-fit: cover;
-            display: block;
-            background: var(--cream);
+            perspective: 1000px;
         }
 
         .photo-placeholder {
             width: 100%;
             aspect-ratio: 3 / 4;
             background: var(--cream);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 50px rgba(139, 92, 246, 0.15);
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.25s ease, box-shadow 0.4s ease;
+            will-change: transform;
+        }
+
+        .photo-placeholder:hover,
+        .photo-placeholder.is-tilting {
+            box-shadow: 0 30px 65px rgba(139, 92, 246, 0.3);
         }
 
         .photo-placeholder::before {
@@ -184,9 +201,31 @@
                 45deg,
                 transparent,
                 transparent 12px,
-                rgba(0,0,0,0.03) 12px,
-                rgba(0,0,0,0.03) 13px
+                rgba(139, 92, 246, 0.04) 12px,
+                rgba(139, 92, 246, 0.04) 13px
             );
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* soft light-sheen that follows the cursor */
+        .photo-placeholder::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(
+                circle 220px at var(--mx, 50%) var(--my, 50%),
+                rgba(255, 255, 255, 0.35),
+                transparent 60%
+            );
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .photo-placeholder:hover::after {
+            opacity: 1;
         }
 
         .photo-placeholder span {
@@ -198,6 +237,23 @@
             z-index: 1;
         }
 
+        .about-photo {
+            width: 100%;
+            height: 100%;
+            aspect-ratio: 3 / 4;
+            object-fit: cover;
+            display: block;
+            background: var(--cream);
+            border-radius: 12px;
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), filter 0.5s ease;
+            filter: saturate(0.94);
+        }
+
+        .photo-placeholder:hover .about-photo {
+            transform: scale(1.07);
+            filter: saturate(1.08);
+        }
+
         /* ── Band-aid decoration (larger + edge-hugging on all devices) ── */
         .bandaid-decoration {
             position: absolute;
@@ -207,7 +263,12 @@
             height: auto;
             z-index: 10;
             pointer-events: none;
-            filter: drop-shadow(1px 2px 4px rgba(0,0,0,0.18));
+            filter: drop-shadow(1px 2px 4px rgba(139, 92, 246, 0.25));
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .photo-frame:hover .bandaid-decoration {
+            transform: rotate(-6deg) translateY(-4px);
         }
 
         /* iPad mini (768px) — single column, photo fills wider area,
@@ -235,6 +296,7 @@
             letter-spacing: 0.12em;
             text-transform: uppercase;
             color: var(--muted);
+            font-weight: 600;
         }
 
         /* ── Bio column ── */
@@ -244,7 +306,10 @@
             font-weight: 700;
             letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: var(--muted);
+            background: var(--grad);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             margin-bottom: 24px;
         }
 
@@ -259,9 +324,9 @@
 
         .bio-body {
             font-size: 0.95rem;
-            font-weight: 300;
+            font-weight: 400;
             line-height: 1.85;
-            color: #444;
+            color: #55506e;
             margin-bottom: 20px;
         }
 
@@ -283,12 +348,13 @@
             text-transform: uppercase;
             color: var(--muted);
             margin-bottom: 4px;
+            font-weight: 600;
         }
 
         .detail-value {
             font-family: 'Syne', sans-serif;
             font-size: 0.88rem;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--black);
         }
 
@@ -307,31 +373,38 @@
             text-transform: uppercase;
             text-decoration: none;
             padding: 14px 28px;
+            border-radius: 6px;
             display: inline-block;
-            transition: all 0.25s ease;
+            transition: background-position 0.5s ease, transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
             cursor: pointer;
         }
 
         .btn-primary {
-            background: var(--black);
+            background: var(--grad);
+            background-size: 200% auto;
             color: var(--white);
-            border: 1.5px solid var(--black);
+            border: 1.5px solid transparent;
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
         }
 
         .btn-primary:hover {
-            background: var(--white);
-            color: var(--black);
+            background-position: right center;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(139, 92, 246, 0.4);
         }
 
         .btn-outline {
             background: transparent;
-            color: var(--black);
-            border: 1.5px solid var(--black);
+            color: #6d28d9;
+            border: 1.5px solid #8b5cf6;
         }
 
         .btn-outline:hover {
-            background: var(--black);
+            background: var(--grad);
+            border-color: transparent;
             color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(139, 92, 246, 0.3);
         }
 
         /* ══════════════════════════════════════
@@ -340,7 +413,7 @@
 
         /* Gradient panel wrapping the whole skills area */
         .skills-panel {
-            background: linear-gradient(135deg, #0a0a0a 0%, #262626 38%, #3d3d3d 62%, #0a0a0a 100%);
+            background: linear-gradient(135deg, #0f0c29 0%, #1e1240 45%, #2d1b4e 100%);
             border-radius: 20px;
             padding: 64px 5vw;
             margin: 0 -5vw;
@@ -363,7 +436,10 @@
             animation: none;
             opacity: 1;
             margin-bottom: 10px;
-            color: rgba(255, 255, 255, 0.55);
+            background: linear-gradient(90deg, #a5b4fc, #f0abfc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
         .skills-heading h2 {
@@ -379,7 +455,7 @@
             animation: none;
             opacity: 1;
             margin: 20px 0 0;
-            background: var(--white);
+            background: linear-gradient(90deg, #818cf8, #f472b6);
         }
 
         .skills-section {
@@ -400,10 +476,13 @@
             font-weight: 700;
             letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.6);
+            background: linear-gradient(90deg, #a5b4fc, #f0abfc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             margin-bottom: 28px;
             padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            border-bottom: 1px solid rgba(167, 139, 250, 0.25);
         }
 
         .skill-item {
@@ -429,7 +508,7 @@
             font-family: 'Syne', sans-serif;
             font-size: 0.75rem;
             font-weight: 700;
-            color: rgba(255, 255, 255, 0.6);
+            color: #c4bfe0;
             letter-spacing: 0.05em;
             min-width: 36px;
             text-align: right;
@@ -438,14 +517,14 @@
 
         .skill-track {
             height: 3px;
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(167, 139, 250, 0.18);
             border-radius: 2px;
             overflow: hidden;
         }
 
         .skill-bar {
             height: 100%;
-            background: linear-gradient(90deg, #ffffff 0%, #cfcfcf 100%);
+            background: linear-gradient(90deg, #818cf8, #a855f7, #f472b6);
             border-radius: 2px;
             width: 0%;
             transition: width 1.1s cubic-bezier(0.22, 1, 0.36, 1);
@@ -474,7 +553,7 @@
                 <div class="about-photo-wrap">
 
                     <!-- Photo frame with band-aid decoration -->
-                    <div class="photo-frame">
+                    <div class="photo-frame" id="photoFrame">
 
                         <!-- Band-aid image overlaid on upper-left corner -->
                         <img
@@ -484,7 +563,7 @@
                             aria-hidden="true"
                         >
 
-                        <div class="photo-placeholder">
+                        <div class="photo-placeholder" id="photoTilt">
                             <img src="{{ asset('images/about_profile_photo.jpg') }}" alt="Monjhie Dulay" class="about-photo">
                         </div>
 
@@ -863,6 +942,47 @@
 
 
     <script>
+        /* ══════════════════════════════════════
+           INTERACTIVE PHOTO — 3D TILT + CURSOR SHEEN
+        ══════════════════════════════════════ */
+        const photoTilt = document.getElementById('photoTilt');
+
+        if (photoTilt) {
+            const MAX_TILT = 10; // degrees
+
+            photoTilt.addEventListener('mousemove', (e) => {
+                const rect = photoTilt.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const percentX = x / rect.width;
+                const percentY = y / rect.height;
+
+                const tiltX = (percentY - 0.5) * -MAX_TILT * 2;
+                const tiltY = (percentX - 0.5) * MAX_TILT * 2;
+
+                photoTilt.style.transform =
+                    `rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
+
+                photoTilt.style.setProperty('--mx', `${percentX * 100}%`);
+                photoTilt.style.setProperty('--my', `${percentY * 100}%`);
+            });
+
+            photoTilt.addEventListener('mouseleave', () => {
+                photoTilt.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+            });
+
+            /* Touch support: tap gives a gentle pop instead of tilt */
+            photoTilt.addEventListener('touchstart', () => {
+                photoTilt.style.transform = 'scale3d(1.03, 1.03, 1.03)';
+            }, { passive: true });
+
+            photoTilt.addEventListener('touchend', () => {
+                photoTilt.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+            });
+        }
+
+
         /* ══════════════════════════════════════
            SKILL BAR ANIMATION
         ══════════════════════════════════════ */

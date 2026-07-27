@@ -11,9 +11,13 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            overflow-x: hidden;
+        }
+
         body {
-            background-color: #ffffff;
-            color: #0a0a0a;
+            background-color: #f8f7ff;
+            color: #1e1b4b;
             font-family: 'Segoe UI', sans-serif;
         }
 
@@ -37,7 +41,7 @@
         }
 
         /* ══════════════════════════════════════
-           SECTION 1 — HERO (white background)
+           SECTION 1 — HERO (soft gradient background)
         ══════════════════════════════════════ */
         .hero {
             min-height: 100vh;
@@ -46,9 +50,121 @@
             justify-content: center;
             padding: 6rem 8rem;
             gap: 5rem;
-            background-color: #ffffff;
+            background: linear-gradient(135deg, #f5f3ff 0%, #eef2ff 45%, #fdf4ff 100%);
         }
 
+        /* ── NEW: Centered hero content wrapper ── */
+        .hero-center {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 1.6rem;
+        }
+
+        .hero-eyebrow {
+            font-size: 0.95rem;
+            background: linear-gradient(90deg, #7c3aed, #db2777);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeUpHero 0.7s ease forwards;
+            animation-delay: 0.1s;
+        }
+
+        .hero-name {
+            font-size: clamp(2.6rem, 6vw, 5.5rem);
+            font-weight: 900;
+            line-height: 1.05;
+            color: #1e1b4b;
+            letter-spacing: 1px;
+            opacity: 0;
+            animation: fadeUpHero 0.7s ease forwards;
+            animation-delay: 0.25s;
+        }
+
+        .hero-name .highlight {
+            background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        @keyframes fadeUpHero {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── ROLE PILLS (Web Developer / Game Developer) ── */
+        .hero-roles {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
+            opacity: 0;
+            animation: fadeUpHero 0.7s ease forwards;
+            animation-delay: 0.45s;
+        }
+
+        .role-pill {
+            position: relative;
+            overflow: hidden;
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #ffffff;
+            background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+            background-size: 200% auto;
+            box-shadow: 0 10px 26px rgba(139, 92, 246, 0.35);
+            transition: background-position 0.5s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: default;
+        }
+
+        .role-pill::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -120%;
+            width: 60%; height: 100%;
+            background: linear-gradient(110deg, transparent 10%, rgba(255,255,255,0.55) 40%, rgba(255,255,255,0.85) 50%, rgba(255,255,255,0.55) 60%, transparent 90%);
+            transform: skewX(-20deg);
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .role-pill.sweep::before { animation: sweepShine 1.2s cubic-bezier(0.22,0.61,0.36,1) forwards; }
+
+        .role-pill:hover {
+            background-position: right center;
+            transform: translateY(-3px);
+            box-shadow: 0 14px 32px rgba(139, 92, 246, 0.45);
+        }
+
+        .role-divider {
+            display: flex;
+            align-items: center;
+            color: #a855f7;
+            font-weight: 900;
+            font-size: 1.1rem;
+        }
+
+        @keyframes sweepShine {
+            0%   { left: -120%; opacity: 0; }
+            8%   { opacity: 1; }
+            90%  { opacity: 0.6; }
+            100% { left: 160%; opacity: 0; }
+        }
+
+        /* ── (old hero classes kept in case reused elsewhere) ── */
         .hero-left {
             flex: 1;
             display: flex;
@@ -60,7 +176,11 @@
 
         .greeting {
             font-size: 0.95rem;
-            color: #555555;
+            background: linear-gradient(90deg, #7c3aed, #db2777);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
             letter-spacing: 4px;
             text-transform: uppercase;
             margin-bottom: 1.5rem;
@@ -70,31 +190,37 @@
             font-size: clamp(2.2rem, 3.5vw, 4.2rem);
             font-weight: 800;
             line-height: 1.1;
-            color: #0a0a0a;
+            color: #1e1b4b;
             white-space: nowrap;
         }
 
-        .hero-left h1 .highlight { color: #0a0a0a; }
+        .hero-left h1 .highlight {
+            background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
 
         .role {
             font-size: 1.1rem;
-            color: #555555;
+            color: #6b7280;
             letter-spacing: 1px;
             margin-top: 1rem;
         }
 
         .role span {
-            color: #0a0a0a;
-            font-weight: 600;
+            color: #4f46e5;
+            font-weight: 700;
         }
 
         .bio {
             max-width: 500px;
-            color: #666666;
+            color: #55506e;
             margin-top: 1.5rem;
             line-height: 1.9;
             font-size: 1rem;
-            border-left: 3px solid #0a0a0a;
+            border-left: 3px solid transparent;
+            border-image: linear-gradient(180deg, #6366f1, #ec4899) 1;
             padding-left: 1.2rem;
         }
 
@@ -110,14 +236,15 @@
             overflow: hidden;
             padding: 0.45rem 1.1rem;
             background-color: #ffffff;
-            border: 1px solid #d0d0d0;
+            border: 1px solid #ddd6fe;
             border-radius: 5px;
             font-size: 0.8rem;
-            color: #555555;
+            color: #6d28d9;
             letter-spacing: 1px;
             text-transform: uppercase;
             cursor: default;
-            transition: border-color 0.5s ease, color 0.5s ease, box-shadow 0.5s ease, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            font-weight: 600;
+            transition: border-color 0.5s ease, color 0.5s ease, box-shadow 0.5s ease, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), background 0.5s ease;
             will-change: transform, box-shadow;
         }
 
@@ -133,20 +260,14 @@
         }
 
         .badge:hover {
-            border-color: #aaaaaa;
-            color: #0a0a0a;
+            border-color: #a855f7;
+            color: #ffffff;
+            background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.95);
+            box-shadow: 0 10px 24px rgba(139, 92, 246, 0.28), 0 2px 6px rgba(139,92,246,0.15);
         }
 
         .badge.sweep::before { animation: sweepShine 1.2s cubic-bezier(0.22,0.61,0.36,1) forwards; }
-
-        @keyframes sweepShine {
-            0%   { left: -120%; opacity: 0; }
-            8%   { opacity: 1; }
-            90%  { opacity: 0.6; }
-            100% { left: 160%; opacity: 0; }
-        }
 
         .buttons {
             display: flex;
@@ -156,25 +277,31 @@
 
         .btn-primary {
             padding: 0.85rem 2rem;
-            background-color: #0a0a0a;
+            background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+            background-size: 200% auto;
             color: #ffffff;
             text-decoration: none;
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 0.9rem;
             font-weight: 700;
             letter-spacing: 1px;
             text-transform: uppercase;
-            transition: background 0.3s;
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.35);
+            transition: background-position 0.5s ease, transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .btn-primary:hover { background-color: #333333; }
+        .btn-primary:hover {
+            background-position: right center;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(139, 92, 246, 0.45);
+        }
 
         .btn-outline {
             padding: 0.85rem 2rem;
-            border: 2px solid #0a0a0a;
-            color: #0a0a0a;
+            border: 2px solid #8b5cf6;
+            color: #6d28d9;
             text-decoration: none;
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 0.9rem;
             font-weight: 700;
             letter-spacing: 1px;
@@ -182,7 +309,13 @@
             transition: all 0.3s;
         }
 
-        .btn-outline:hover { background-color: #0a0a0a; color: #ffffff; }
+        .btn-outline:hover {
+            background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+            border-color: transparent;
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(139, 92, 246, 0.3);
+        }
 
         .hero-right {
             flex: 1;
@@ -196,6 +329,17 @@
             position: relative;
             width: clamp(300px, 38vw, 600px);
             aspect-ratio: 520 / 620;
+        }
+
+        .photo-container::before {
+            content: '';
+            position: absolute;
+            inset: -6%;
+            background: linear-gradient(135deg, #818cf8, #c084fc, #f472b6);
+            border-radius: 24px;
+            filter: blur(38px);
+            opacity: 0.35;
+            z-index: 0;
         }
 
         .photo-main {
@@ -239,8 +383,8 @@
         .scroll-indicator span {
             display: block;
             width: 12px; height: 12px;
-            border-right: 2px solid #cccccc;
-            border-bottom: 2px solid #cccccc;
+            border-right: 2px solid #a855f7;
+            border-bottom: 2px solid #a855f7;
             transform: rotate(45deg);
         }
 
@@ -256,10 +400,10 @@
         }
 
         /* ══════════════════════════════════════
-           SECTION 2 — GODOT (black background)
+           SECTION 2 — GODOT (dark gradient background)
         ══════════════════════════════════════ */
         .godot-section {
-            background-color: #0a0a0a;
+            background: linear-gradient(135deg, #0f0c29 0%, #1e1240 45%, #2d1b4e 100%);
             color: #ffffff;
             padding: 8rem;
             display: flex;
@@ -268,6 +412,43 @@
             gap: 6rem;
             min-height: 100vh;
         }
+
+        /* ── The cat, sitting statically right on the top border of
+               the Godot logo card. It's a normal item in the flex
+               column above the logo box; the negative margin cancels
+               the flex gap so it sits flush against the card, and the
+               50% translateY centers the cat exactly on the border
+               line — half above the card, half overlapping inside it.
+               No JS positioning needed, so it stays correct at every
+               screen size. ── */
+        .cat-sit {
+            position: relative;
+            z-index: 5;
+            height: clamp(80px, 9vw, 140px);
+            width: auto;
+            margin-bottom: -1.5rem; /* cancels .godot-left's flex gap so the cat sits flush against the card */
+            transform: translateY(50%); /* centers the cat on the card's top border edge */
+            pointer-events: none;
+            user-select: none;
+            filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.35));
+
+            /* ── QUALITY FIX ──
+               Forces crisp, hard-edged scaling instead of the browser's
+               default blur-inducing smoothing when the gif is enlarged. */
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            -ms-interpolation-mode: nearest-neighbor;
+        }
+
+        @media (max-width: 860px) {
+            .cat-sit { height: clamp(66px, 14vw, 110px); }
+        }
+
+        @media (max-width: 480px) {
+            .cat-sit { height: clamp(56px, 20vw, 88px); }
+        }
+
 
         .godot-left {
             flex: 1;
@@ -287,18 +468,18 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid #333333;
+            border: 1px solid rgba(167, 139, 250, 0.3);
             border-radius: 16px;
             padding: 2rem;
-            background-color: #111111;
+            background: linear-gradient(160deg, rgba(99,102,241,0.12), rgba(236,72,153,0.08));
             cursor: default;
             transition: border-color 0.4s, box-shadow 0.4s, transform 0.4s;
             animation: logoFloat 4s ease-in-out infinite;
         }
 
         .godot-logo-container:hover {
-            border-color: #555555;
-            box-shadow: 0 0 40px rgba(255,255,255,0.07);
+            border-color: #a855f7;
+            box-shadow: 0 0 50px rgba(168, 85, 247, 0.25);
             transform: translateY(-4px) scale(1.02);
             animation-play-state: paused;
         }
@@ -345,15 +526,29 @@
             to   { opacity: 1; transform: translateY(0); }
         }
 
-        .godot-logo-label .label-name { font-size: 1rem; font-weight: 700; color: #ffffff; letter-spacing: 3px; text-transform: uppercase; }
-        .godot-logo-label .label-line { width: 40px; height: 2px; background-color: #ffffff; border-radius: 2px; animation: linePulse 2.5s ease-in-out infinite; }
+        .godot-logo-label .label-name {
+            font-size: 1rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #a5b4fc, #f0abfc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        .godot-logo-label .label-line {
+            width: 40px; height: 2px;
+            background: linear-gradient(90deg, #818cf8, #f472b6);
+            border-radius: 2px;
+            animation: linePulse 2.5s ease-in-out infinite;
+        }
 
         @keyframes linePulse {
             0%,100% { width: 30px; opacity: 0.4; }
             50%     { width: 56px; opacity: 1; }
         }
 
-        .godot-logo-label .label-sub { font-size: 0.7rem; color: #555555; letter-spacing: 4px; text-transform: uppercase; }
+        .godot-logo-label .label-sub { font-size: 0.7rem; color: #9ca3af; letter-spacing: 4px; text-transform: uppercase; }
 
         .godot-right {
             flex: 1;
@@ -365,7 +560,11 @@
 
         .godot-label {
             font-size: 0.8rem;
-            color: #ffffff;
+            background: linear-gradient(90deg, #a5b4fc, #f0abfc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
             letter-spacing: 5px;
             text-transform: uppercase;
             margin-bottom: 1rem;
@@ -382,7 +581,7 @@
             left: 0; top: 50%;
             transform: translateY(-50%);
             width: 6px; height: 6px;
-            background-color: #ffffff;
+            background: linear-gradient(90deg, #818cf8, #f472b6);
             border-radius: 50%;
         }
 
@@ -391,19 +590,37 @@
             to   { opacity: 1; transform: translateX(0); }
         }
 
-        .godot-title { font-size: clamp(2rem, 3vw, 3.2rem); font-weight: 800; color: #ffffff; line-height: 1.1; margin-bottom: 1.5rem; }
-        .godot-divider { width: 60px; height: 3px; background-color: #ffffff; margin-bottom: 1.5rem; }
+        .godot-title {
+            font-size: clamp(2rem, 3vw, 3.2rem);
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+        .godot-divider {
+            width: 60px; height: 3px;
+            background: linear-gradient(90deg, #818cf8, #f472b6);
+            margin-bottom: 1.5rem;
+            border-radius: 2px;
+        }
 
         .godot-text {
             font-size: 1rem;
-            color: #aaaaaa;
+            color: #c4bfe0;
             line-height: 1.9;
-            border-left: 3px solid #333333;
+            border-left: 3px solid transparent;
+            border-image: linear-gradient(180deg, #818cf8, #f472b6) 1;
             padding-left: 1.2rem;
             max-width: 500px;
         }
 
-        .godot-text strong { color: #ffffff; font-weight: 600; }
+        .godot-text strong {
+            background: linear-gradient(90deg, #c4b5fd, #f9a8d4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+        }
 
         .godot-tags { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 2rem; }
 
@@ -411,14 +628,15 @@
             position: relative;
             overflow: hidden;
             padding: 0.4rem 1rem;
-            border: 1px solid #333333;
+            border: 1px solid rgba(167, 139, 250, 0.35);
             border-radius: 4px;
             font-size: 0.8rem;
-            color: #aaaaaa;
+            color: #c4bfe0;
             letter-spacing: 1px;
             text-transform: uppercase;
             cursor: default;
-            transition: border-color 0.4s, color 0.4s, transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            font-weight: 600;
+            transition: border-color 0.4s, color 0.4s, transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background 0.4s;
         }
 
         .godot-tag::before {
@@ -432,33 +650,44 @@
             opacity: 0;
         }
 
-        .godot-tag:hover { border-color: #ffffff; color: #ffffff; transform: translateY(-2px); }
+        .godot-tag:hover {
+            border-color: transparent;
+            color: #ffffff;
+            background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+            transform: translateY(-2px);
+        }
         .godot-tag.sweep::before { animation: sweepShine 1.2s cubic-bezier(0.22,0.61,0.36,1) forwards; }
 
         .godot-btn {
             display: inline-block;
             margin-top: 2.5rem;
             padding: 0.85rem 2rem;
-            background-color: #ffffff;
-            color: #0a0a0a;
+            background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+            background-size: 200% auto;
+            color: #ffffff;
             text-decoration: none;
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 0.9rem;
             font-weight: 700;
             letter-spacing: 1px;
             text-transform: uppercase;
-            transition: background 0.3s, color 0.3s;
+            box-shadow: 0 8px 24px rgba(168, 85, 247, 0.35);
+            transition: background-position 0.5s ease, transform 0.3s ease, box-shadow 0.3s ease;
             align-self: flex-start;
         }
 
-        .godot-btn:hover { background-color: #cccccc; }
+        .godot-btn:hover {
+            background-position: right center;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(168, 85, 247, 0.45);
+        }
 
         /* ══════════════════════════════════════
-           SECTION 3 — FLUTTER (white background)
+           SECTION 3 — FLUTTER (soft gradient background)
         ══════════════════════════════════════ */
         .flutter-section {
-            background-color: #ffffff;
-            color: #0a0a0a;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 45%, #ecfeff 100%);
+            color: #0c1a3a;
             padding: 8rem;
             display: flex;
             align-items: center;
@@ -477,7 +706,11 @@
 
         .flutter-section-label {
             font-size: 0.8rem;
-            color: #0a0a0a;
+            background: linear-gradient(90deg, #0284c7, #0891b2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
             letter-spacing: 5px;
             text-transform: uppercase;
             margin-bottom: 1rem;
@@ -491,23 +724,29 @@
             left: 0; top: 50%;
             transform: translateY(-50%);
             width: 6px; height: 6px;
-            background-color: #0a0a0a;
+            background: linear-gradient(90deg, #0ea5e9, #06b6d4);
             border-radius: 50%;
         }
 
-        .flutter-title { font-size: clamp(2rem, 3vw, 3.2rem); font-weight: 800; color: #0a0a0a; line-height: 1.1; margin-bottom: 1.5rem; }
-        .flutter-divider { width: 60px; height: 3px; background-color: #0a0a0a; margin-bottom: 1.5rem; }
+        .flutter-title { font-size: clamp(2rem, 3vw, 3.2rem); font-weight: 800; color: #0c1a3a; line-height: 1.1; margin-bottom: 1.5rem; }
+        .flutter-divider {
+            width: 60px; height: 3px;
+            background: linear-gradient(90deg, #0ea5e9, #06b6d4);
+            margin-bottom: 1.5rem;
+            border-radius: 2px;
+        }
 
         .flutter-text {
             font-size: 1rem;
-            color: #666666;
+            color: #47597a;
             line-height: 1.9;
-            border-left: 3px solid #e0e0e0;
+            border-left: 3px solid transparent;
+            border-image: linear-gradient(180deg, #0ea5e9, #06b6d4) 1;
             padding-left: 1.2rem;
             max-width: 500px;
         }
 
-        .flutter-text strong { color: #0a0a0a; font-weight: 600; }
+        .flutter-text strong { color: #0369a1; font-weight: 700; }
 
         .flutter-tags { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 2rem; }
 
@@ -515,14 +754,15 @@
             position: relative;
             overflow: hidden;
             padding: 0.4rem 1rem;
-            border: 1px solid #d0d0d0;
+            border: 1px solid #bae6fd;
             border-radius: 4px;
             font-size: 0.8rem;
-            color: #555555;
+            color: #0369a1;
             letter-spacing: 1px;
             text-transform: uppercase;
             cursor: default;
-            transition: border-color 0.4s, color 0.4s, transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            font-weight: 600;
+            transition: border-color 0.4s, color 0.4s, transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background 0.4s;
         }
 
         .flutter-tag::before {
@@ -536,26 +776,37 @@
             opacity: 0;
         }
 
-        .flutter-tag:hover { border-color: #0a0a0a; color: #0a0a0a; transform: translateY(-2px); }
+        .flutter-tag:hover {
+            border-color: transparent;
+            color: #ffffff;
+            background: linear-gradient(90deg, #0ea5e9, #06b6d4);
+            transform: translateY(-2px);
+        }
         .flutter-tag.sweep::before { animation: sweepShine 1.2s cubic-bezier(0.22,0.61,0.36,1) forwards; }
 
         .flutter-btn {
             display: inline-block;
             margin-top: 2.5rem;
             padding: 0.85rem 2rem;
-            background-color: #0a0a0a;
+            background: linear-gradient(90deg, #0ea5e9, #06b6d4, #22d3ee);
+            background-size: 200% auto;
             color: #ffffff;
             text-decoration: none;
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 0.9rem;
             font-weight: 700;
             letter-spacing: 1px;
             text-transform: uppercase;
-            transition: background 0.3s;
+            box-shadow: 0 8px 20px rgba(14, 165, 233, 0.3);
+            transition: background-position 0.5s ease, transform 0.3s ease, box-shadow 0.3s ease;
             align-self: flex-start;
         }
 
-        .flutter-btn:hover { background-color: #333333; }
+        .flutter-btn:hover {
+            background-position: right center;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(14, 165, 233, 0.4);
+        }
 
         /* RIGHT — Logo stack */
         .flutter-right {
@@ -568,19 +819,18 @@
             min-width: 0;
         }
 
-        /* ── CHANGED: bigger logo box + bigger image inside ── */
         .flutter-logo-container {
             position: relative;
             overflow: hidden;
-            width: clamp(220px, 26vw, 380px); /* was clamp(180px, 22vw, 320px) */
+            width: clamp(220px, 26vw, 380px);
             aspect-ratio: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid #e0e0e0;
+            border: 1px solid #bae6fd;
             border-radius: 16px;
             padding: 2rem;
-            background-color: #f9f9f9;
+            background: linear-gradient(160deg, #ffffff, #ecfeff);
             cursor: default;
             transition: border-color 0.4s, box-shadow 0.4s, transform 0.4s;
             animation: logoFloat 4s ease-in-out infinite;
@@ -588,8 +838,8 @@
         }
 
         .flutter-logo-container:hover {
-            border-color: #aaaaaa;
-            box-shadow: 0 0 40px rgba(0,0,0,0.06);
+            border-color: #22d3ee;
+            box-shadow: 0 0 45px rgba(14, 165, 233, 0.2);
             transform: translateY(-4px) scale(1.02);
             animation-play-state: paused;
         }
@@ -608,7 +858,6 @@
 
         .flutter-logo-container.sweep::before { animation: sweepShine 1.2s cubic-bezier(0.22,0.61,0.36,1) forwards; }
 
-        /* ── CHANGED: image size 75% → 92% ── */
         .flutter-logo-container img { width: 92%; height: 92%; object-fit: contain; position: relative; z-index: 1; }
 
         .flutter-logo-label {
@@ -618,9 +867,23 @@
             gap: 0.4rem;
         }
 
-        .flutter-logo-label .label-name { font-size: 1rem; font-weight: 700; color: #0a0a0a; letter-spacing: 3px; text-transform: uppercase; }
-        .flutter-logo-label .label-line { width: 40px; height: 2px; background-color: #0a0a0a; border-radius: 2px; animation: linePulse 2.5s ease-in-out infinite; }
-        .flutter-logo-label .label-sub { font-size: 0.7rem; color: #888888; letter-spacing: 4px; text-transform: uppercase; }
+        .flutter-logo-label .label-name {
+            font-size: 1rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #0284c7, #06b6d4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        .flutter-logo-label .label-line {
+            width: 40px; height: 2px;
+            background: linear-gradient(90deg, #0ea5e9, #22d3ee);
+            border-radius: 2px;
+            animation: linePulse 2.5s ease-in-out infinite;
+        }
+        .flutter-logo-label .label-sub { font-size: 0.7rem; color: #64748b; letter-spacing: 4px; text-transform: uppercase; }
 
         .flutter-db-row {
             display: flex;
@@ -635,24 +898,24 @@
             align-items: center;
             gap: 0.5rem;
             padding: 0.9rem 1.4rem;
-            border: 1px solid #e0e0e0;
+            border: 1px solid #bae6fd;
             border-radius: 10px;
-            background: #f9f9f9;
+            background: linear-gradient(160deg, #ffffff, #f0f9ff);
             font-size: 0.7rem;
             font-weight: 700;
             letter-spacing: 1.5px;
             text-transform: uppercase;
-            color: #555555;
+            color: #0369a1;
             transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
             cursor: default;
             min-width: 100px;
         }
 
         .db-badge:hover {
-            border-color: #aaaaaa;
-            color: #0a0a0a;
+            border-color: #22d3ee;
+            color: #0c4a6e;
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.07);
+            box-shadow: 0 10px 24px rgba(14, 165, 233, 0.18);
         }
 
         .db-badge .db-icon { font-size: 1.6rem; line-height: 1; }
@@ -666,25 +929,19 @@
 
         @media (max-width: 1100px) {
             .hero           { padding: 6rem 3rem; gap: 3rem; }
-            .hero-left h1   { font-size: clamp(2rem, 3.2vw, 3.2rem); }
             .godot-section  { padding: 6rem 3rem; gap: 3rem; }
             .flutter-section{ padding: 6rem 3rem; gap: 3rem; }
         }
 
         @media (max-width: 860px) {
             .hero {
-                flex-direction: column-reverse;
                 min-height: auto;
                 padding: 8rem 2.5rem 4rem;
                 gap: 2.5rem;
                 text-align: center;
             }
-            .hero-left { align-items: center; }
-            .bio { border-left: none; border-top: 3px solid #0a0a0a; padding-left: 0; padding-top: 1rem; text-align: left; }
-            .badges { justify-content: center; }
-            .buttons { justify-content: center; }
-            .photo-container { width: clamp(260px, 70vw, 420px); }
-            .hero-right { width: 100%; }
+            .hero-roles { gap: 0.7rem; }
+            .role-pill { padding: 0.65rem 1.4rem; font-size: 0.85rem; }
 
             .godot-section {
                 flex-direction: column;
@@ -693,7 +950,7 @@
                 text-align: center;
             }
             .godot-right { align-items: center; }
-            .godot-text { border-left: none; border-top: 3px solid #333333; padding-left: 0; padding-top: 1rem; text-align: left; }
+            .godot-text { border-left: none; border-image: none; border-top: 3px solid #a855f7; padding-left: 0; padding-top: 1rem; text-align: left; }
             .godot-tags { justify-content: center; }
             .godot-btn { align-self: center; }
             .godot-divider { margin-left: auto; margin-right: auto; }
@@ -707,30 +964,27 @@
                 text-align: center;
             }
             .flutter-left { align-items: center; }
-            .flutter-text { border-left: none; border-top: 3px solid #e0e0e0; padding-left: 0; padding-top: 1rem; text-align: left; }
+            .flutter-text { border-left: none; border-image: none; border-top: 3px solid #22d3ee; padding-left: 0; padding-top: 1rem; text-align: left; }
             .flutter-tags { justify-content: center; }
             .flutter-btn { align-self: center; }
             .flutter-divider { margin-left: auto; margin-right: auto; }
             .flutter-section-label { padding-left: 1.5rem; }
-            .flutter-logo-container { width: clamp(180px, 55vw, 300px); } /* slightly bigger on mobile too */
+            .flutter-logo-container { width: clamp(180px, 55vw, 300px); }
         }
 
         @media (max-width: 640px) {
             .hero           { padding: 7rem 1.5rem 3rem; gap: 2rem; }
-            .hero-left h1   { font-size: 2.2rem; white-space: normal; }
-            .role           { font-size: 1rem; }
-            .bio            { font-size: 0.95rem; }
-            .btn-primary, .btn-outline { padding: 0.75rem 1.5rem; font-size: 0.8rem; }
+            .hero-name      { font-size: 2.4rem; }
             .godot-section  { padding: 5rem 1.5rem; }
             .flutter-section{ padding: 5rem 1.5rem; }
         }
 
         @media (max-width: 420px) {
             .hero           { padding: 6.5rem 1.2rem 2.5rem; }
-            .hero-left h1   { font-size: 1.9rem; }
-            .greeting       { font-size: 0.78rem; letter-spacing: 3px; }
-            .buttons        { flex-direction: column; width: 100%; }
-            .btn-primary, .btn-outline { text-align: center; }
+            .hero-name      { font-size: 2rem; }
+            .hero-eyebrow   { font-size: 0.78rem; letter-spacing: 3px; }
+            .hero-roles     { flex-direction: column; width: 100%; align-items: center; }
+            .role-pill      { width: 100%; max-width: 260px; text-align: center; }
             .godot-section  { padding: 4rem 1.2rem; }
             .flutter-section{ padding: 4rem 1.2rem; }
         }
@@ -744,52 +998,33 @@
     <div class="page-wrapper">
 
         <!-- ══════════════════════════════════════
-             SECTION 1 — HERO
+             SECTION 1 — HERO (Monjhie Dulay Portfolio)
         ══════════════════════════════════════ -->
         <section class="hero">
+            <div class="hero-center">
+                <p class="hero-eyebrow">Portfolio</p>
+                <h1 class="hero-name">Monjhie <span class="highlight">Dulay</span></h1>
 
-            <div class="hero-left">
-                <p class="greeting">Hello, World 👋</p>
-                <h1>I'm <span class="highlight">Monjhie</span> Dulay.</h1>
-                <p class="role">
-                    <span>Game Developer</span> & <span>Web Developer</span>
-                </p>
-                <p class="bio">
-                    A passionate developer who loves
-                    creating immersive game experiences and clean,
-                    functional web applications.
-                </p>
-                <div class="badges">
-                    <span class="badge">🎮 Game Dev</span>
-                    <span class="badge">🌐 Web Dev</span>
-                    <span class="badge">⚙️ Laravel</span>
-                    <span class="badge">🐘 PHP</span>
-                    <span class="badge">🎨 UI Design</span>
-                    <span class="badge">💙 Flutter</span>
-                    <span class="badge">🎮 Godot</span>
-                </div>
-                <div class="buttons">
-                    <a href="{{ route('projects') }}" class="btn-primary">View My Projects</a>
-                    <a href="{{ route('contact') }}" class="btn-outline">Contact Me</a>
+                <div class="hero-roles">
+                    <span class="role-pill">Web Developer</span>
+                    <span class="role-divider">&</span>
+                    <span class="role-pill">Game Developer</span>
                 </div>
             </div>
-
-            <div class="hero-right">
-                <div class="photo-container">
-                    <img src="{{ asset('images/try_profile.png') }}"
-                         alt="Monjhie Dulay"
-                         class="photo-main">
-                </div>
-            </div>
-
         </section>
 
         <!-- ══════════════════════════════════════
-             SECTION 2 — GODOT (black background)
+             SECTION 2 — GODOT (dark gradient background)
         ══════════════════════════════════════ -->
         <section class="godot-section" id="godotSection">
 
             <div class="godot-left">
+                <img
+                    src="{{ asset('images/cat_attacking.gif') }}"
+                    alt=""
+                    class="cat-sit"
+                    aria-hidden="true"
+                >
                 <div class="godot-logo-container" id="godotLogoBox">
                     <img src="{{ asset('images/godot_logo.png') }}"
                          alt="Godot Engine"
@@ -833,7 +1068,7 @@
         </section>
 
         <!-- ══════════════════════════════════════
-             SECTION 3 — FLUTTER (white background)
+             SECTION 3 — FLUTTER (soft gradient background)
         ══════════════════════════════════════ -->
         <section class="flutter-section" id="flutterSection">
 
@@ -898,6 +1133,15 @@
     </div>
 
     <script>
+        /* ── HERO ROLE PILL SWEEP ── */
+        document.querySelectorAll('.role-pill').forEach(pill => {
+            pill.addEventListener('mouseenter', () => {
+                pill.classList.remove('sweep');
+                void pill.offsetWidth;
+                pill.classList.add('sweep');
+            });
+        });
+
         /* ── BADGE SWEEP SHINE ── */
         document.querySelectorAll('.badge').forEach(badge => {
             badge.addEventListener('mouseenter', () => {
@@ -958,7 +1202,7 @@
         /* ── SCROLL-TRIGGERED ANIMATIONS (Godot) ── */
         const godotSection = document.querySelector('#godotSection');
         const godotTargets = godotSection.querySelectorAll(
-            '.godot-logo-container, .godot-logo-label, .godot-label, .godot-title, .godot-divider, .godot-text, .godot-tag, .godot-btn'
+            '.cat-sit, .godot-logo-container, .godot-logo-label, .godot-label, .godot-title, .godot-divider, .godot-text, .godot-tag, .godot-btn'
         );
 
         godotTargets.forEach((el, i) => {

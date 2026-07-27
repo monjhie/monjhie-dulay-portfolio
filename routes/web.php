@@ -2,7 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 
+// Splash screen — this is now the entry point
 Route::get('/', function () {
+    return view('splash');
+})->name('splash');
+
+// Actual home page — now lives at /home
+Route::get('/home', function () {
     return view('home');
 })->name('home');
 

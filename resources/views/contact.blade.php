@@ -13,15 +13,21 @@
         }
 
         :root {
-            --black:  #0a0a0a;
-            --white:  #ffffff;
-            --cream:  #f5f2ee;
-            --muted:  #888;
-            --border: #e8e4df;
+            --black:   #1e1b4b;
+            --white:   #ffffff;
+            --cream:   #f5f3ff;
+            --muted:   #7c7799;
+            --border:  #e0d9ff;
+            --grad:    linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+        }
+
+        html, body {
+            min-height: 100%;
         }
 
         body {
-            background-color: var(--white);
+            background: linear-gradient(135deg, #f5f3ff 0%, #eef2ff 45%, #fdf4ff 100%);
+            background-attachment: fixed;
             color: var(--black);
             font-family: 'DM Sans', sans-serif;
             overflow-x: hidden;
@@ -58,7 +64,7 @@
         ══════════════════════════════════════ */
         .contact-page {
             padding: 120px 6vw 100px;
-            max-width: 1300px;
+            max-width: 900px;
             margin: 0 auto;
         }
 
@@ -68,10 +74,13 @@
         .page-label {
             font-family: 'Syne', sans-serif;
             font-size: 0.7rem;
-            font-weight: 600;
+            font-weight: 700;
             letter-spacing: 0.25em;
             text-transform: uppercase;
-            color: var(--muted);
+            background: var(--grad);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             margin-bottom: 12px;
             opacity: 0;
             animation: fadeUp 0.5s 0.1s ease forwards;
@@ -91,38 +100,31 @@
         .divider {
             width: 48px;
             height: 2px;
-            background: var(--black);
+            background: var(--grad);
+            border-radius: 2px;
             margin: 28px 0 56px;
             opacity: 0;
             animation: fadeUp 0.5s 0.25s ease forwards;
         }
 
         /* ══════════════════════════════════════
-           CONTACT GRID
-        ══════════════════════════════════════ */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 80px;
-            align-items: start;
-            opacity: 0;
-            animation: fadeUp 0.7s 0.3s ease forwards;
-        }
-
-        @media (max-width: 900px) {
-            .contact-grid {
-                grid-template-columns: 1fr;
-                gap: 60px;
-            }
-        }
-
-        /* ══════════════════════════════════════
-           LEFT COLUMN — INFO
+           CONTACT INFO CARD
         ══════════════════════════════════════ */
         .contact-info {
             display: flex;
             flex-direction: column;
             gap: 0;
+            opacity: 0;
+            animation: fadeUp 0.7s 0.3s ease forwards;
+            background-color: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 48px;
+            box-shadow: 0 20px 50px rgba(139, 92, 246, 0.12);
+        }
+
+        @media (max-width: 640px) {
+            .contact-info { padding: 32px 24px; }
         }
 
         .info-intro {
@@ -144,7 +146,6 @@
             display: flex;
             flex-direction: column;
             gap: 0;
-            margin-bottom: 48px;
         }
 
         .info-item {
@@ -153,10 +154,15 @@
             gap: 4px;
             padding: 20px 0;
             border-bottom: 1px solid var(--border);
+            transition: padding-left 0.3s ease;
         }
 
         .info-item:first-child {
             border-top: 1px solid var(--border);
+        }
+
+        .info-item:hover {
+            padding-left: 8px;
         }
 
         .info-label {
@@ -165,7 +171,7 @@
             text-transform: uppercase;
             color: var(--muted);
             font-family: 'Syne', sans-serif;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .info-value {
@@ -180,16 +186,27 @@
             color: var(--black);
             text-decoration: none;
             transition: color 0.2s;
+            background: var(--grad);
+            -webkit-background-clip: text;
+            background-clip: text;
         }
 
         .info-value a:hover {
-            color: var(--muted);
+            color: #ec4899;
         }
 
-        /* Address block */
+        /* ── Address block — now behaves exactly like the other
+               .info-item rows (border, padding, hover nudge) so it
+               no longer looks/feels inconsistent with Name, Email,
+               Mobile Number, and Available for. ── */
         .address-block {
             padding: 20px 0;
             border-bottom: 1px solid var(--border);
+            transition: padding-left 0.3s ease;
+        }
+
+        .address-block:hover {
+            padding-left: 8px;
         }
 
         .address-label {
@@ -198,7 +215,7 @@
             text-transform: uppercase;
             color: var(--muted);
             font-family: 'Syne', sans-serif;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 6px;
         }
 
@@ -206,47 +223,85 @@
             font-family: 'DM Sans', sans-serif;
             font-size: 0.9rem;
             font-weight: 400;
-            color: #444;
+            color: #55506e;
             line-height: 1.7;
         }
 
         /* ══════════════════════════════════════
-           RIGHT COLUMN — MAP
+           SOCIAL LINKS
         ══════════════════════════════════════ */
-        .map-wrap {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
+        .social-block {
+            padding: 24px 0 0;
         }
 
-        .map-label {
-            font-family: 'Syne', sans-serif;
+        .social-label {
             font-size: 0.65rem;
-            font-weight: 700;
             letter-spacing: 0.2em;
             text-transform: uppercase;
             color: var(--muted);
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            margin-bottom: 16px;
         }
 
-        .map-frame {
-            width: 100%;
-            aspect-ratio: 4 / 3;
+        .social-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .social-icon {
+            position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
             border: 1px solid var(--border);
+            background-color: #ffffff;
+            color: #6d28d9;
+            text-decoration: none;
+            transition: border-color 0.35s ease, color 0.35s ease, transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.35s ease, background 0.35s ease;
         }
 
-        .map-frame iframe {
-            width: 100%;
-            height: 100%;
-            border: 0;
-            display: block;
+        .social-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+            position: relative;
+            z-index: 1;
         }
 
-        .map-caption {
-            font-size: 0.72rem;
-            letter-spacing: 0.08em;
-            color: var(--muted);
-            line-height: 1.6;
+        .social-icon::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -120%;
+            width: 60%; height: 100%;
+            background: linear-gradient(110deg, transparent 10%, rgba(255,255,255,0.55) 40%, rgba(255,255,255,0.85) 50%, rgba(255,255,255,0.55) 60%, transparent 90%);
+            transform: skewX(-20deg);
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .social-icon.sweep::before {
+            animation: sweepShine 1.2s cubic-bezier(0.22,0.61,0.36,1) forwards;
+        }
+
+        @keyframes sweepShine {
+            0%   { left: -120%; opacity: 0; }
+            8%   { opacity: 1; }
+            90%  { opacity: 0.6; }
+            100% { left: 160%; opacity: 0; }
+        }
+
+        .social-icon:hover {
+            border-color: transparent;
+            color: #ffffff;
+            background: var(--grad);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 24px rgba(139, 92, 246, 0.3), 0 2px 6px rgba(139, 92, 246, 0.15);
         }
     </style>
 </head>
@@ -264,71 +319,73 @@
             <div class="divider"></div>
 
             <!-- ══════════════════════════════════════
-                 CONTACT GRID
+                 CONTACT INFO
             ══════════════════════════════════════ -->
-            <div class="contact-grid">
+            <div class="contact-info">
 
-                <!-- Left: contact info -->
-                <div class="contact-info">
+                <p class="info-intro">
+                    Have a project in mind or just want to say hello?<br>
+                    <span>I'd love to hear from you.</span>
+                </p>
 
-                    <p class="info-intro">
-                        Have a project in mind or just want to say hello?<br>
-                        <span>I'd love to hear from you.</span>
-                    </p>
+                <div class="info-list">
 
-                    <div class="info-list">
-
-                        <div class="info-item">
-                            <span class="info-label">Name</span>
-                            <span class="info-value">Monjhie Dulay</span>
-                        </div>
-
-                        <div class="info-item">
-                            <span class="info-label">Email</span>
-                            <span class="info-value">
-                                <a href="mailto:itsmonjhiedulay@gmail.com">itsmonjhiedulay@gmail.com</a>
-                            </span>
-                        </div>
-
-                        <div class="info-item">
-                            <span class="info-label">Mobile Number</span>
-                            <span class="info-value">+63 956 239 4657</span>
-                        </div>
-
-                        <div class="info-item">
-                            <span class="info-label">Available for</span>
-                            <span class="info-value">Freelance / Full-time</span>
-                        </div>
-
-                        <div class="address-block">
-                            <p class="address-label">Address</p>
-                            <p class="address-value">
-                                Blk. 17 Lot. 9, Blessedville Subdivision<br>
-                                Sampaloc II, Dasmari&ntilde;as City<br>
-                                Cavite, 4114
-                            </p>
-                        </div>
-
+                    <div class="info-item">
+                        <span class="info-label">Name</span>
+                        <span class="info-value">Monjhie Dulay</span>
                     </div>
 
-                </div><!-- end .contact-info -->
-
-                <!-- Right: map -->
-                <div class="map-wrap">
-                    <p class="map-label">Location</p>
-                    <div class="map-frame">
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d966.7067277987369!2d120.97109984117989!3d14.263314543677074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sph!4v1780148191204!5m2!1sen!2sph"
-                            allowfullscreen=""
-                            loading="lazy"
-                            referrerpolicy="no-referrer-when-downgrade"
-                            title="Monjhie Dulay Location"
-                        ></iframe>
+                    <div class="info-item">
+                        <span class="info-label">Email</span>
+                        <span class="info-value">
+                            <a href="mailto:itsmonjhiedulay@gmail.com">itsmonjhiedulay@gmail.com</a>
+                        </span>
                     </div>
-                    <p class="map-caption">Dasmari&ntilde;as City, Cavite, Philippines</p>
+
+                    <div class="info-item">
+                        <span class="info-label">Mobile Number</span>
+                        <span class="info-value">+63 956 239 4657</span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">Available for</span>
+                        <span class="info-value">Freelance / Full-time</span>
+                    </div>
+
+                    <div class="address-block">
+                        <p class="address-label">Address</p>
+                        <p class="address-value">
+                            Blk. 17 Lot. 9, Blessedville Subdivision<br>
+                            Sampaloc II, Dasmari&ntilde;as City<br>
+                            Cavite, 4114
+                        </p>
+                    </div>
+
+                    <!-- ══════════════════════════════════════
+                         SOCIAL LINKS — Facebook, Instagram, Discord
+                    ══════════════════════════════════════ -->
+                    <div class="social-block">
+                        <p class="social-label">Follow / Connect</p>
+                        <div class="social-row">
+
+                            <a href="https://www.facebook.com/monjhie.dulay.35" target="_blank" rel="noopener" class="social-icon" aria-label="Facebook">
+                                <svg viewBox="0 0 24 24"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.51 1.49-3.9 3.77-3.9 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34V22c4.78-.79 8.44-4.94 8.44-9.94z"/></svg>
+                            </a>
+
+                            <a href="https://www.instagram.com/m.eekoo/#" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram">
+                                <svg viewBox="0 0 24 24"><path d="M12 2c2.72 0 3.06.01 4.12.06 1.06.05 1.79.22 2.43.47.66.26 1.22.6 1.77 1.16.56.55.9 1.11 1.16 1.77.25.64.42 1.37.47 2.43.05 1.06.06 1.4.06 4.12s-.01 3.06-.06 4.12c-.05 1.06-.22 1.79-.47 2.43a4.92 4.92 0 0 1-1.16 1.77 4.92 4.92 0 0 1-1.77 1.16c-.64.25-1.37.42-2.43.47-1.06.05-1.4.06-4.12.06s-3.06-.01-4.12-.06c-1.06-.05-1.79-.22-2.43-.47a4.92 4.92 0 0 1-1.77-1.16 4.92 4.92 0 0 1-1.16-1.77c-.25-.64-.42-1.37-.47-2.43C2.01 15.06 2 14.72 2 12s.01-3.06.06-4.12c.05-1.06.22-1.79.47-2.43.26-.66.6-1.22 1.16-1.77A4.92 4.92 0 0 1 5.46.53c.64-.25 1.37-.42 2.43-.47C8.94.01 9.28 0 12 0zm0 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zM17.5 3.9a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg>
+                            </a>
+
+                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=itsmonjhiedulay@gmail.com" target="_blank" rel="noopener" class="social-icon" aria-label="Gmail">
+                                 <svg viewBox="0 0 24 24"><path d="M12 12.713l-11.985-9.713h23.97l-11.985 9.713zm0 2.574l-12-9.729v15.442h24v-15.442l-12 9.729z"/></svg>
+                            </a>
+
+                        </div>
+                    </div>
+
                 </div>
 
-            </div><!-- end .contact-grid -->
+            </div><!-- end .contact-info -->
 
         </div><!-- end .contact-page -->
     </div><!-- end .page-wrapper -->
@@ -353,6 +410,15 @@
         /* ── FIX BACK BUTTON CACHE ── */
         window.addEventListener('pageshow', function (e) {
             if (e.persisted) document.body.classList.remove('fade-out');
+        });
+
+        /* ── SOCIAL ICON SWEEP SHINE ── */
+        document.querySelectorAll('.social-icon').forEach(icon => {
+            icon.addEventListener('mouseenter', () => {
+                icon.classList.remove('sweep');
+                void icon.offsetWidth;
+                icon.classList.add('sweep');
+            });
         });
     </script>
 

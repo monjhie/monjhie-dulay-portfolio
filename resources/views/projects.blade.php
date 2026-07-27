@@ -12,8 +12,8 @@
         }
 
         body {
-            background-color: #ffffff;
-            color: #0a0a0a;
+            background-color: #f8f7ff;
+            color: #1e1b4b;
             font-family: 'Segoe UI', sans-serif;
         }
 
@@ -36,90 +36,6 @@
             to   { opacity: 0; transform: translateY(-10px); }
         }
 
-        /* ── PROJECTS SECTION ── */
-        .projects-section {
-            min-height: 100vh;
-            padding: 8rem 8rem 5rem;
-        }
-
-        .projects-header {
-            margin-bottom: 3.5rem;
-        }
-
-        .projects-header h1 {
-            font-size: 3.8rem;
-            font-weight: 800;
-            color: #0a0a0a;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            line-height: 1;
-        }
-
-        .projects-header p {
-            margin-top: 1rem;
-            font-size: 1rem;
-            color: #666666;
-            border-left: 3px solid #0a0a0a;
-            padding-left: 1.2rem;
-        }
-
-        /* ── CARDS GRID ── */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-
-        /* ── PROJECT CARD ── */
-        .project-card {
-            position: relative;
-            overflow: hidden;
-            border: 1px solid #d0d0d0;
-            border-radius: 8px;
-            background-color: #ffffff;
-            cursor: pointer;
-            transition:
-                border-color 0.5s ease,
-                box-shadow 0.5s ease,
-                transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            will-change: transform, box-shadow;
-        }
-
-        /* ── SWEEP SHINE ── */
-        .project-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -120%;
-            width: 60%;
-            height: 100%;
-            background: linear-gradient(
-                110deg,
-                transparent 10%,
-                rgba(255, 255, 255, 0.35) 40%,
-                rgba(255, 255, 255, 0.65) 50%,
-                rgba(255, 255, 255, 0.35) 60%,
-                transparent 90%
-            );
-            transform: skewX(-20deg);
-            pointer-events: none;
-            opacity: 0;
-            z-index: 2;
-        }
-
-        .project-card:hover {
-            border-color: #aaaaaa;
-            transform: translateY(-6px);
-            box-shadow:
-                0 12px 40px rgba(0, 0, 0, 0.1),
-                0 4px 10px rgba(0, 0, 0, 0.06),
-                inset 0 1px 0 rgba(255, 255, 255, 0.95);
-        }
-
-        .project-card.sweep::before {
-            animation: sweepShine 1.2s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
-        }
-
         @keyframes sweepShine {
             0%   { left: -120%; opacity: 0; }
             8%   { opacity: 1; }
@@ -127,30 +43,175 @@
             100% { left: 160%; opacity: 0; }
         }
 
-        /* ── CARD IMAGE ── */
-        .card-image {
-            width: 100%;
-            height: 220px;
+        /* ══════════════════════════════════════
+           HEADER (soft gradient, matches hero)
+        ══════════════════════════════════════ */
+        .projects-header-section {
+            padding: 9rem 8rem 3rem;
+            background: linear-gradient(135deg, #f5f3ff 0%, #eef2ff 45%, #fdf4ff 100%);
+            text-align: center;
+        }
+
+        .projects-eyebrow {
+            font-size: 0.9rem;
+            background: linear-gradient(90deg, #7c3aed, #db2777);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+
+        .projects-header-section h1 {
+            font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-top: 0.8rem;
+            color: #1e1b4b;
+        }
+
+        .projects-header-section h1 .highlight {
+            background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .projects-header-section p {
+            margin: 1.2rem auto 0;
+            max-width: 560px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #55506e;
+            line-height: 1.8;
+        }
+
+        /* ── FILTER TOGGLE ── */
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.9rem;
+            margin-top: 2.2rem;
+        }
+
+        .filter-btn {
+            position: relative;
             overflow: hidden;
-            background-color: #f5f5f5;
+            padding: 0.7rem 1.7rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            border: 2px solid #ddd6fe;
+            background-color: #ffffff;
+            color: #6d28d9;
+            cursor: pointer;
+            font-family: inherit;
+            transition: border-color 0.4s ease, color 0.4s ease, background 0.4s ease,
+                        transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
+        }
+
+        .filter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -120%;
+            width: 60%; height: 100%;
+            background: linear-gradient(110deg, transparent 10%, rgba(255,255,255,0.55) 40%, rgba(255,255,255,0.85) 50%, rgba(255,255,255,0.55) 60%, transparent 90%);
+            transform: skewX(-20deg);
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .filter-btn.sweep::before { animation: sweepShine 1.2s cubic-bezier(0.22,0.61,0.36,1) forwards; }
+
+        .filter-btn:hover {
+            border-color: #a855f7;
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            border-color: transparent;
+            color: #ffffff;
+            background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+            box-shadow: 0 10px 26px rgba(139, 92, 246, 0.35);
+        }
+
+        /* ══════════════════════════════════════
+           PROJECT SECTIONS (alternating, no cards)
+        ══════════════════════════════════════ */
+        .projects-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5rem;
+            padding: 6rem 8rem;
+        }
+
+        /* Only force near-full-height sections on large desktop screens.
+           Tablets/laptops size to their content instead, which avoids
+           the big empty gap that showed up on iPad Pro and similar
+           mid-size screens when min-height: 90vh applied everywhere. */
+        @media (min-width: 1401px) {
+            .project-section {
+                min-height: 90vh;
+            }
+        }
+
+        /* alternate background: soft lavender / soft sky, like hero + flutter section */
+        .project-section:nth-child(odd) {
+            background: linear-gradient(135deg, #f5f3ff 0%, #eef2ff 45%, #fdf4ff 100%);
+        }
+
+        .project-section:nth-child(even) {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 45%, #ecfeff 100%);
+        }
+
+        .project-section:nth-child(even) .project-media {
+            order: 2;
+        }
+
+        .project-section.is-hidden {
+            display: none;
+        }
+
+        .project-media {
+            flex: 1;
+            min-width: 0;
             position: relative;
         }
 
-        .card-image img {
+        .project-media-frame {
+            position: relative;
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid #ddd6fe;
+            box-shadow: 0 20px 50px rgba(139, 92, 246, 0.18);
+        }
+
+        .project-media-frame img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
             display: block;
+            object-fit: cover;
+            aspect-ratio: 16 / 10;
             transition: transform 0.5s ease;
         }
 
-        .project-card:hover .card-image img {
-            transform: scale(1.05);
+        .project-media-frame:hover img {
+            transform: scale(1.04);
         }
 
-        .card-image-placeholder {
+        .project-media-placeholder {
             width: 100%;
-            height: 100%;
+            aspect-ratio: 16 / 10;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -161,89 +222,247 @@
             text-transform: uppercase;
         }
 
-        /* ── CARD BODY ── */
-        .card-body {
-            padding: 1.5rem;
+        .project-content {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
         }
 
-        .card-tags {
+        .project-label {
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            position: relative;
+            padding-left: 1.2rem;
+        }
+
+        .project-section:nth-child(odd) .project-label {
+            background: linear-gradient(90deg, #7c3aed, #db2777);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .project-section:nth-child(odd) .project-label::before {
+            background: linear-gradient(90deg, #818cf8, #f472b6);
+        }
+
+        .project-section:nth-child(even) .project-label {
+            background: linear-gradient(90deg, #0284c7, #0891b2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .project-section:nth-child(even) .project-label::before {
+            background: linear-gradient(90deg, #0ea5e9, #06b6d4);
+        }
+
+        .project-label::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 50%;
+            transform: translateY(-50%);
+            width: 6px; height: 6px;
+            border-radius: 50%;
+        }
+
+        .project-title {
+            font-size: clamp(1.8rem, 2.6vw, 2.8rem);
+            font-weight: 900;
+            color: #1e1b4b;
+            line-height: 1.15;
+            margin-bottom: 1.3rem;
+        }
+
+        /* ── ANIMATED MOVING DIVIDER (under title) ── */
+        .project-divider {
+            position: relative;
+            width: 60px;
+            height: 3px;
+            border-radius: 2px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .project-divider::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -40%;
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.95) 50%, transparent 100%);
+            animation: dividerMove 2.2s linear infinite;
+        }
+
+        @keyframes dividerMove {
+            0%   { left: -40%; }
+            100% { left: 140%; }
+        }
+
+        .project-section:nth-child(odd) .project-divider {
+            background: linear-gradient(90deg, #818cf8, #f472b6);
+        }
+        .project-section:nth-child(even) .project-divider {
+            background: linear-gradient(90deg, #0ea5e9, #06b6d4);
+        }
+
+        .project-desc {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #47597a;
+            line-height: 1.9;
+            border-left: 3px solid transparent;
+            padding-left: 1.2rem;
+            max-width: 520px;
+        }
+
+        .project-section:nth-child(odd) .project-desc {
+            color: #55506e;
+            border-image: linear-gradient(180deg, #6366f1, #ec4899) 1;
+        }
+        .project-section:nth-child(even) .project-desc {
+            border-image: linear-gradient(180deg, #0ea5e9, #06b6d4) 1;
+        }
+
+        .project-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.4rem;
-            margin-bottom: 1rem;
+            gap: 0.6rem;
+            margin-top: 1.8rem;
         }
 
-        .card-tag {
-            padding: 0.25rem 0.7rem;
-            background-color: #f5f5f5;
-            border: 1px solid #e0e0e0;
-            border-radius: 3px;
-            font-size: 0.7rem;
-            color: #777777;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .card-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #0a0a0a;
-            margin-bottom: 0.6rem;
-        }
-
-        .card-desc {
-            font-size: 0.9rem;
-            color: #666666;
-            line-height: 1.7;
-            margin-bottom: 1.5rem;
-        }
-
-        /* ── CARD FOOTER ── */
-        .card-footer {
-            display: flex;
-            gap: 0.8rem;
-            padding: 1rem 1.5rem;
-            border-top: 1px solid #eeeeee;
-        }
-
-        .card-btn {
-            flex: 1;
-            padding: 0.6rem 1rem;
-            font-size: 0.78rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            text-align: center;
-            text-decoration: none;
+        .project-tag {
+            position: relative;
+            overflow: hidden;
+            padding: 0.4rem 1rem;
             border-radius: 4px;
-            transition: all 0.3s;
-            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: default;
+            transition: border-color 0.4s, color 0.4s, transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background 0.4s;
+        }
+
+        .project-section:nth-child(odd) .project-tag {
+            border: 1px solid rgba(167, 139, 250, 0.35);
+            color: #6d28d9;
+        }
+        .project-section:nth-child(odd) .project-tag:hover {
+            border-color: transparent;
+            color: #ffffff;
+            background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+            transform: translateY(-2px);
+        }
+
+        .project-section:nth-child(even) .project-tag {
+            border: 1px solid #bae6fd;
+            color: #0369a1;
+        }
+        .project-section:nth-child(even) .project-tag:hover {
+            border-color: transparent;
+            color: #ffffff;
+            background: linear-gradient(90deg, #0ea5e9, #06b6d4);
+            transform: translateY(-2px);
+        }
+
+        .project-tag::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -120%;
+            width: 60%; height: 100%;
+            background: linear-gradient(110deg, transparent 10%, rgba(255,255,255,0.55) 40%, rgba(255,255,255,0.85) 50%, rgba(255,255,255,0.55) 60%, transparent 90%);
+            transform: skewX(-20deg);
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .project-tag.sweep::before { animation: sweepShine 1.2s cubic-bezier(0.22,0.61,0.36,1) forwards; }
+
+        .project-actions {
             display: flex;
-            align-items: center;
-            justify-content: center;
+            gap: 1rem;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .project-btn {
+            padding: 0.85rem 2rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
             font-family: inherit;
+            border: none;
+            transition: background-position 0.5s ease, transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, color 0.3s ease;
         }
 
-        .card-btn-primary {
-            background-color: #0a0a0a;
+        .project-section:nth-child(odd) .project-btn-primary {
+            background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+            background-size: 200% auto;
             color: #ffffff;
-            border: 2px solid #0a0a0a;
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.35);
         }
-
-        .card-btn-primary:hover {
-            background-color: #333333;
-            border-color: #333333;
+        .project-section:nth-child(odd) .project-btn-primary:hover {
+            background-position: right center;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(139, 92, 246, 0.45);
         }
-
-        .card-btn-outline {
-            background-color: transparent;
-            color: #0a0a0a;
-            border: 2px solid #0a0a0a;
+        .project-section:nth-child(odd) .project-btn-outline {
+            background: transparent;
+            border: 2px solid #8b5cf6;
+            color: #6d28d9;
         }
-
-        .card-btn-outline:hover {
-            background-color: #0a0a0a;
+        .project-section:nth-child(odd) .project-btn-outline:hover {
+            background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+            border-color: transparent;
             color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(139, 92, 246, 0.3);
+        }
+
+        .project-section:nth-child(even) .project-btn-primary {
+            background: linear-gradient(90deg, #0ea5e9, #06b6d4, #22d3ee);
+            background-size: 200% auto;
+            color: #ffffff;
+            box-shadow: 0 8px 20px rgba(14, 165, 233, 0.3);
+        }
+        .project-section:nth-child(even) .project-btn-primary:hover {
+            background-position: right center;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(14, 165, 233, 0.4);
+        }
+        .project-section:nth-child(even) .project-btn-outline {
+            background: transparent;
+            border: 2px solid #0284c7;
+            color: #0369a1;
+        }
+        .project-section:nth-child(even) .project-btn-outline:hover {
+            background: linear-gradient(90deg, #0ea5e9, #06b6d4);
+            border-color: transparent;
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(14, 165, 233, 0.3);
+        }
+
+        /* ── EMPTY STATE ── */
+        .projects-empty {
+            display: none;
+            padding: 6rem 2rem;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #8b85a8;
+        }
+
+        .projects-empty.visible {
+            display: block;
         }
 
         /* ── PREVIEW MODAL ── */
@@ -254,7 +473,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(10, 10, 10, 0.92);
+            background-color: rgba(30, 27, 75, 0.92);
             z-index: 1000;
             align-items: center;
             justify-content: center;
@@ -284,7 +503,7 @@
             justify-content: center;
             border-radius: 10px;
             overflow: hidden;
-            background-color: #111111;
+            background-color: #1e1240;
         }
 
         .preview-image-wrap img {
@@ -298,7 +517,7 @@
 
         .preview-counter {
             margin-top: 1rem;
-            color: #cccccc;
+            color: #e0d9ff;
             font-size: 0.85rem;
             letter-spacing: 1px;
         }
@@ -347,23 +566,52 @@
         }
 
         /* ── RESPONSIVE ── */
-        @media (max-width: 1200px) {
-            .projects-section { padding: 8rem 5rem 5rem; }
+        @media (max-width: 1600px) {
+            .projects-header-section { padding: 9rem 6rem 3rem; }
+            .project-section { padding: 5rem 6rem; gap: 4rem; }
         }
 
-        @media (max-width: 1000px) {
-            .projects-section { padding: 8rem 3rem 5rem; }
-            .cards-grid { grid-template-columns: repeat(2, 1fr); }
+        @media (max-width: 1100px) {
+            .projects-header-section { padding: 8rem 3rem 3rem; }
+            .project-section { padding: 4rem 3rem; gap: 3rem; }
+        }
+
+        @media (max-width: 900px) {
+            .project-section {
+                flex-direction: column;
+                min-height: auto;
+                padding: 4rem 2.5rem;
+                gap: 2.5rem;
+                text-align: center;
+            }
+            .project-section:nth-child(even) .project-media {
+                order: 0;
+            }
+            .project-content { align-items: center; }
+            .project-desc {
+                border-left: none;
+                border-image: none;
+                border-top: 3px solid #a855f7;
+                padding-left: 0;
+                padding-top: 1rem;
+                text-align: left;
+            }
+            .project-tags { justify-content: center; }
+            .project-actions { justify-content: center; }
+            .project-divider { margin-left: auto; margin-right: auto; }
+            .project-label { padding-left: 1.5rem; }
         }
 
         @media (max-width: 640px) {
-            .projects-section { padding: 7rem 1.5rem 3rem; }
-            .projects-header h1 { font-size: 2.6rem; }
-            .cards-grid { grid-template-columns: 1fr; }
+            .projects-header-section { padding: 7rem 1.5rem 2.5rem; }
+            .project-section { padding: 3rem 1.5rem; }
+            .filter-row { gap: 0.6rem; }
+            .filter-btn { padding: 0.6rem 1.3rem; font-size: 0.75rem; }
         }
 
         @media (max-width: 420px) {
-            .projects-header h1 { font-size: 2rem; }
+            .project-actions { flex-direction: column; width: 100%; }
+            .project-btn { text-align: center; }
         }
     </style>
 </head>
@@ -374,94 +622,85 @@
 
     <!-- PAGE WRAPPER -->
     <div class="page-wrapper">
-        <section class="projects-section">
 
-            <!-- HEADER -->
-            <div class="projects-header">
-                <h1>Projects</h1>
-                <p>A collection of games, websites, and applications I've built.</p>
+        <!-- ══════════ HEADER + FILTER ══════════ -->
+        <section class="projects-header-section">
+            <p class="projects-eyebrow">Portfolio</p>
+            <h1>My <span class="highlight">Projects</span></h1>
+            <p>A collection of games, websites, and applications I've built.</p>
+
+            <div class="filter-row" id="filterRow">
+                <button type="button" class="filter-btn active" data-filter="all">All</button>
+                <button type="button" class="filter-btn" data-filter="website">Website</button>
+                <button type="button" class="filter-btn" data-filter="application">Application</button>
+                <button type="button" class="filter-btn" data-filter="game">Game</button>
             </div>
-
-            <!-- ══════════ ALL PROJECTS ══════════ -->
-            <div class="cards-grid">
-
-                <!-- CARD — Godot Game -->
-                <div class="project-card">
-                    <div class="card-image">
-                        <img src="{{ asset('images/project_game_1.png') }}" alt="Project One"
-                             onerror="this.parentElement.innerHTML='<div class=\'card-image-placeholder\'>No Image</div>'">
-                    </div>
-                    <div class="card-body">
-                        <div class="card-tags">
-                            <span class="card-tag">🎮 Godot</span>
-                            <span class="card-tag">⚙️ GDScript</span>
-                        </div>
-                        <h2 class="card-title">Project Title One</h2>
-                        <p class="card-desc">
-                            A short description of this project. What it does,
-                            what you learned, and what makes it interesting.
-                        </p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="{{ asset('games/project1/first-game.html') }}"
-                        class="card-btn card-btn-primary"
-                        target="_blank">Live Demo</a>
-                        <a href="#"
-                           class="card-btn card-btn-outline"
-                           target="_blank">GitHub</a>
-                    </div>
-                </div>
-
-                <!-- CARD — Flutter App (Canteen Ordering App) -->
-                <div class="project-card">
-                    <div class="card-image">
-                        <img src="{{ asset('CanteenOrderingAppPreview/canteen-ordering-app-preview-1.jpg') }}" alt="Canteen Ordering App"
-                             onerror="this.parentElement.innerHTML='<div class=\'card-image-placeholder\'>No Image</div>'">
-                    </div>
-                    <div class="card-body">
-                        <div class="card-tags">
-                            <span class="card-tag">💙 Flutter</span>
-                            <span class="card-tag">📱 Mobile</span>
-                        </div>
-                        <h2 class="card-title">Canteen Ordering App</h2>
-                        <p class="card-desc">
-                            A mobile ordering app built for Olivarez College Tagaytay using Flutter, with Firebase
-                            powering the backend and authentication. I only used
-                            Supabase for storing and serving images.
-                        </p>
-                    </div>
-                    <div class="card-footer">
-                        <button type="button" class="card-btn card-btn-primary" onclick="openPreview()">Preview</button>
-                        <a href="#" class="card-btn card-btn-outline" target="_blank">GitHub</a>
-                    </div>
-                </div>
-
-                <!-- CARD — Meeko's Haven (CRUD Website) -->
-                <div class="project-card">
-                    <div class="card-image">
-                        <div class="card-image-placeholder">No Image</div>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-tags">
-                            <span class="card-tag">🐘 PHP</span>
-                            <span class="card-tag">🔄 AJAX</span>
-                            <span class="card-tag">💛 jQuery</span>
-                            <span class="card-tag">⚡ JavaScript</span>
-                        </div>
-                        <h2 class="card-title">Meeko's Haven</h2>
-                        <p class="card-desc">
-                            A school project built with PHP, AJAX, jQuery, and JavaScript.
-                        </p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="card-btn card-btn-primary" style="opacity:0.5; pointer-events:none; cursor:default;">Live Demo</a>
-                        <a href="#" class="card-btn card-btn-outline" target="_blank">GitHub</a>
-                    </div>
-                </div>
-
-            </div>
-
         </section>
+
+        <!-- ══════════ PROJECT SECTIONS ══════════ -->
+        <div class="projects-list" id="projectsList">
+
+            <!-- PROJECT — Godot Game -->
+            <section class="project-section" data-category="game">
+                <div class="project-media">
+                    <div class="project-media-frame">
+                        <img src="{{ asset('images/project_game_1.png') }}" alt="Project One"
+                             onerror="this.parentElement.innerHTML='<div class=\'project-media-placeholder\'>No Image</div>'">
+                    </div>
+                </div>
+                <div class="project-content">
+                    <p class="project-label">Game Development</p>
+                    <h2 class="project-title">Project Title One</h2>
+                    <div class="project-divider"></div>
+                    <p class="project-desc">
+                        A short description of this project. What it does,
+                        what you learned, and what makes it interesting.
+                    </p>
+                    <div class="project-tags">
+                        <span class="project-tag">🎮 Godot</span>
+                        <span class="project-tag">⚙️ GDScript</span>
+                    </div>
+                    <div class="project-actions">
+                        <a href="{{ asset('games/project1/first-game.html') }}"
+                           class="project-btn project-btn-primary"
+                           target="_blank">Live Demo</a>
+                        <a href="#" class="project-btn project-btn-outline" target="_blank">GitHub</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PROJECT — Flutter App (Canteen Ordering App) -->
+            <section class="project-section" data-category="application">
+                <div class="project-media">
+                    <div class="project-media-frame">
+                        <img src="{{ asset('CanteenOrderingAppPreview/canteen-ordering-app-thumbnail.png') }}" alt="Canteen Ordering App"
+                             onerror="this.parentElement.innerHTML='<div class=\'project-media-placeholder\'>No Image</div>'">
+                    </div>
+                </div>
+                <div class="project-content">
+                    <p class="project-label">Mobile Development</p>
+                    <h2 class="project-title">Canteen Ordering App</h2>
+                    <div class="project-divider"></div>
+                    <p class="project-desc">
+                        A mobile ordering app built for Olivarez College Tagaytay using Flutter, with Firebase
+                        powering the backend and authentication. I only used
+                        Supabase for storing and serving images.
+                    </p>
+                    <div class="project-tags">
+                        <span class="project-tag">💙 Flutter</span>
+                        <span class="project-tag">📱 Mobile</span>
+                    </div>
+                    <div class="project-actions">
+                        <button type="button" class="project-btn project-btn-primary" onclick="openPreview()">Preview</button>
+                        <a href="#" class="project-btn project-btn-outline" target="_blank">GitHub</a>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <p class="projects-empty" id="projectsEmpty">No projects found in this category yet.</p>
+
     </div>
 
     <!-- ══════════ CANTEEN APP PREVIEW MODAL ══════════ -->
@@ -478,13 +717,40 @@
     </div>
 
     <script>
-        /* ── CARD SWEEP SHINE ── */
-        const cards = document.querySelectorAll('.project-card');
-        cards.forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.classList.remove('sweep');
-                void card.offsetWidth;
-                card.classList.add('sweep');
+        /* ── SWEEP SHINE (tags + filter buttons) ── */
+        function bindSweep(selector) {
+            document.querySelectorAll(selector).forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    el.classList.remove('sweep');
+                    void el.offsetWidth;
+                    el.classList.add('sweep');
+                });
+            });
+        }
+        bindSweep('.project-tag');
+        bindSweep('.filter-btn');
+
+        /* ── FILTER TOGGLE ── */
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const projectSections = document.querySelectorAll('.project-section');
+        const projectsEmpty = document.getElementById('projectsEmpty');
+
+        function applyFilter(filter) {
+            let visibleCount = 0;
+            projectSections.forEach(section => {
+                const category = section.getAttribute('data-category');
+                const show = filter === 'all' || category === filter;
+                section.classList.toggle('is-hidden', !show);
+                if (show) visibleCount++;
+            });
+            projectsEmpty.classList.toggle('visible', visibleCount === 0);
+        }
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                applyFilter(btn.getAttribute('data-filter'));
             });
         });
 
@@ -552,6 +818,26 @@
             if (e.key === 'Escape') closePreview();
             if (e.key === 'ArrowRight') nextImage();
             if (e.key === 'ArrowLeft') prevImage();
+        });
+
+        /* ── SCROLL REVEAL FOR PROJECT SECTIONS ── */
+        projectSections.forEach(section => {
+            const targets = section.querySelectorAll(
+                '.project-media-frame, .project-label, .project-title, .project-divider, .project-desc, .project-tag, .project-actions'
+            );
+            targets.forEach((el, i) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(24px)';
+                el.style.transition = `opacity 0.6s ease ${i * 0.08}s, transform 0.6s ease ${i * 0.08}s`;
+            });
+            new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        targets.forEach(el => { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; });
+                        obs.disconnect();
+                    }
+                });
+            }, { threshold: 0.15 }).observe(section);
         });
     </script>
 
