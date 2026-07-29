@@ -644,17 +644,18 @@
             <section class="project-section" data-category="game">
                 <div class="project-media">
                     <div class="project-media-frame">
-                        <img src="{{ asset('images/project_game_1.png') }}" alt="Project One"
+                        <img src="{{ asset('images/project_game_1.png') }}" alt="Wizard Curse"
                              onerror="this.parentElement.innerHTML='<div class=\'project-media-placeholder\'>No Image</div>'">
                     </div>
                 </div>
                 <div class="project-content">
                     <p class="project-label">Game Development</p>
-                    <h2 class="project-title">Project Title One</h2>
+                    <h2 class="project-title">Wizard Curse</h2>
                     <div class="project-divider"></div>
                     <p class="project-desc">
-                        A short description of this project. What it does,
-                        what you learned, and what makes it interesting.
+                        A 2D pixel-art game where you fight against a wizard, built in Godot
+                        using GDScript. It's still a work in progress, and I'm actively adding
+                        more mechanics, enemies, and polish as I go.
                     </p>
                     <div class="project-tags">
                         <span class="project-tag">🎮 Godot</span>

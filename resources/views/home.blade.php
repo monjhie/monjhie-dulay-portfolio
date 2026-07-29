@@ -164,6 +164,38 @@
             100% { left: 160%; opacity: 0; }
         }
 
+        /* ── HERO CTA (Get to Know Me) ── */
+        .hero-cta {
+            margin-top: 0.8rem;
+            opacity: 0;
+            animation: fadeUpHero 0.7s ease forwards;
+            animation-delay: 0.6s;
+        }
+
+        .hero-cta-btn {
+            display: inline-block;
+            padding: 0.9rem 2.4rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: #6d28d9;
+            background-color: #ffffff;
+            border: 2px solid #ddd6fe;
+            transition: border-color 0.4s ease, color 0.4s ease, background 0.4s ease,
+                        transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
+        }
+
+        .hero-cta-btn:hover {
+            border-color: transparent;
+            color: #ffffff;
+            background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+            transform: translateY(-3px);
+            box-shadow: 0 14px 32px rgba(139, 92, 246, 0.35);
+        }
+
         /* ── (old hero classes kept in case reused elsewhere) ── */
         .hero-left {
             flex: 1;
@@ -920,17 +952,238 @@
 
         .db-badge .db-icon { font-size: 1.6rem; line-height: 1; }
 
+        /* ══════════════════════════════════════
+           SECTION 4 — LARAVEL (dark gradient background)
+        ══════════════════════════════════════ */
+        .laravel-section {
+            background: linear-gradient(135deg, #1a0f0a 0%, #2b120a 45%, #3d150a 100%);
+            color: #ffffff;
+            padding: 8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6rem;
+            min-height: 100vh;
+        }
+
+        .laravel-left {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            min-width: 0;
+        }
+
+        .laravel-logo-container {
+            position: relative;
+            overflow: hidden;
+            width: clamp(180px, 22vw, 320px);
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 88, 54, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            background: linear-gradient(160deg, rgba(255, 45, 32, 0.12), rgba(255, 157, 122, 0.08));
+            cursor: default;
+            transition: border-color 0.4s, box-shadow 0.4s, transform 0.4s;
+            animation: logoFloat 4s ease-in-out infinite;
+            animation-delay: 1s;
+        }
+
+        .laravel-logo-container:hover {
+            border-color: #ff2d20;
+            box-shadow: 0 0 50px rgba(255, 45, 32, 0.25);
+            transform: translateY(-4px) scale(1.02);
+            animation-play-state: paused;
+        }
+
+        .laravel-logo-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -120%;
+            width: 60%; height: 100%;
+            background: linear-gradient(110deg, transparent 10%, rgba(255,255,255,0.08) 40%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.08) 60%, transparent 90%);
+            transform: skewX(-20deg);
+            pointer-events: none;
+            opacity: 0;
+            z-index: 2;
+        }
+
+        .laravel-logo-container.sweep::before { animation: godotSweepShine 1.2s cubic-bezier(0.22,0.61,0.36,1) forwards; }
+
+        .laravel-logo-container img { width: 100%; height: 100%; object-fit: contain; position: relative; z-index: 1; }
+
+        .laravel-logo-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            animation: labelFadeUp 0.8s ease both;
+            animation-delay: 0.3s;
+        }
+
+        .laravel-logo-label .label-name {
+            font-size: 1rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #ff8b6b, #ffb199);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        .laravel-logo-label .label-line {
+            width: 40px; height: 2px;
+            background: linear-gradient(90deg, #ff2d20, #ff9d7a);
+            border-radius: 2px;
+            animation: linePulse 2.5s ease-in-out infinite;
+        }
+        .laravel-logo-label .label-sub { font-size: 0.7rem; color: #9ca3af; letter-spacing: 4px; text-transform: uppercase; }
+
+        .laravel-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-width: 0;
+        }
+
+        .laravel-label {
+            font-size: 0.8rem;
+            background: linear-gradient(90deg, #ff8b6b, #ffb199);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: labelSlideIn 0.7s ease forwards;
+            animation-delay: 0.1s;
+            position: relative;
+            padding-left: 1.2rem;
+        }
+
+        .laravel-label::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 50%;
+            transform: translateY(-50%);
+            width: 6px; height: 6px;
+            background: linear-gradient(90deg, #ff2d20, #ff9d7a);
+            border-radius: 50%;
+        }
+
+        .laravel-title {
+            font-size: clamp(2rem, 3vw, 3.2rem);
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+        .laravel-divider {
+            width: 60px; height: 3px;
+            background: linear-gradient(90deg, #ff2d20, #ff9d7a);
+            margin-bottom: 1.5rem;
+            border-radius: 2px;
+        }
+
+        .laravel-text {
+            font-size: 1rem;
+            color: #e0c9bc;
+            line-height: 1.9;
+            border-left: 3px solid transparent;
+            border-image: linear-gradient(180deg, #ff2d20, #ff9d7a) 1;
+            padding-left: 1.2rem;
+            max-width: 500px;
+        }
+
+        .laravel-text strong {
+            background: linear-gradient(90deg, #ff8b6b, #ffcbb6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+        }
+
+        .laravel-tags { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 2rem; }
+
+        .laravel-tag {
+            position: relative;
+            overflow: hidden;
+            padding: 0.4rem 1rem;
+            border: 1px solid rgba(255, 88, 54, 0.35);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: #e0c9bc;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: default;
+            font-weight: 600;
+            transition: border-color 0.4s, color 0.4s, transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background 0.4s;
+        }
+
+        .laravel-tag::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -120%;
+            width: 60%; height: 100%;
+            background: linear-gradient(110deg, transparent 10%, rgba(255,255,255,0.06) 40%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.06) 60%, transparent 90%);
+            transform: skewX(-20deg);
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .laravel-tag:hover {
+            border-color: transparent;
+            color: #ffffff;
+            background: linear-gradient(90deg, #ff2d20, #ff6b4a, #ff9d7a);
+            transform: translateY(-2px);
+        }
+        .laravel-tag.sweep::before { animation: sweepShine 1.2s cubic-bezier(0.22,0.61,0.36,1) forwards; }
+
+        .laravel-btn {
+            display: inline-block;
+            margin-top: 2.5rem;
+            padding: 0.85rem 2rem;
+            background: linear-gradient(90deg, #ff2d20, #ff6b4a, #ff9d7a);
+            background-size: 200% auto;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 8px 24px rgba(255, 45, 32, 0.35);
+            transition: background-position 0.5s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            align-self: flex-start;
+        }
+
+        .laravel-btn:hover {
+            background-position: right center;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(255, 45, 32, 0.45);
+        }
+
         /* ── RESPONSIVE ── */
         @media (max-width: 1600px) {
             .hero           { padding: 6rem 6rem; gap: 4rem; }
             .godot-section  { padding: 8rem 6rem; gap: 4rem; }
             .flutter-section{ padding: 8rem 6rem; gap: 4rem; }
+            .laravel-section{ padding: 8rem 6rem; gap: 4rem; }
         }
 
         @media (max-width: 1100px) {
             .hero           { padding: 6rem 3rem; gap: 3rem; }
             .godot-section  { padding: 6rem 3rem; gap: 3rem; }
             .flutter-section{ padding: 6rem 3rem; gap: 3rem; }
+            .laravel-section{ padding: 6rem 3rem; gap: 3rem; }
         }
 
         @media (max-width: 860px) {
@@ -970,6 +1223,20 @@
             .flutter-divider { margin-left: auto; margin-right: auto; }
             .flutter-section-label { padding-left: 1.5rem; }
             .flutter-logo-container { width: clamp(180px, 55vw, 300px); }
+
+            .laravel-section {
+                flex-direction: column;
+                padding: 6rem 2.5rem;
+                gap: 3rem;
+                text-align: center;
+            }
+            .laravel-right { align-items: center; }
+            .laravel-text { border-left: none; border-image: none; border-top: 3px solid #ff2d20; padding-left: 0; padding-top: 1rem; text-align: left; }
+            .laravel-tags { justify-content: center; }
+            .laravel-btn { align-self: center; }
+            .laravel-divider { margin-left: auto; margin-right: auto; }
+            .laravel-label { padding-left: 1.5rem; }
+            .laravel-logo-container { width: clamp(160px, 50vw, 260px); }
         }
 
         @media (max-width: 640px) {
@@ -977,6 +1244,7 @@
             .hero-name      { font-size: 2.4rem; }
             .godot-section  { padding: 5rem 1.5rem; }
             .flutter-section{ padding: 5rem 1.5rem; }
+            .laravel-section{ padding: 5rem 1.5rem; }
         }
 
         @media (max-width: 420px) {
@@ -985,8 +1253,10 @@
             .hero-eyebrow   { font-size: 0.78rem; letter-spacing: 3px; }
             .hero-roles     { flex-direction: column; width: 100%; align-items: center; }
             .role-pill      { width: 100%; max-width: 260px; text-align: center; }
+            .hero-cta-btn   { width: 100%; max-width: 260px; text-align: center; }
             .godot-section  { padding: 4rem 1.2rem; }
             .flutter-section{ padding: 4rem 1.2rem; }
+            .laravel-section{ padding: 4rem 1.2rem; }
         }
     </style>
 </head>
@@ -1009,6 +1279,10 @@
                     <span class="role-pill">Web Developer</span>
                     <span class="role-divider">&</span>
                     <span class="role-pill">Game Developer</span>
+                </div>
+
+                <div class="hero-cta">
+                    <a href="{{ route('about') }}" class="hero-cta-btn">Get to Know Me</a>
                 </div>
             </div>
         </section>
@@ -1124,6 +1398,54 @@
 
         </section>
 
+        <!-- ══════════════════════════════════════
+             SECTION 4 — LARAVEL (dark gradient background)
+        ══════════════════════════════════════ -->
+        <section class="laravel-section" id="laravelSection">
+
+            <div class="laravel-left">
+                <div class="laravel-logo-container" id="laravelLogoBox">
+                    <img src="{{ asset('images/laravel_logo.png') }}"
+                         alt="Laravel"
+                         onerror="this.style.display='none'; this.parentElement.innerHTML += '<p style=\'color:#888;font-size:0.8rem;letter-spacing:2px;text-transform:uppercase;\'>Laravel</p>'">
+                </div>
+                <div class="laravel-logo-label">
+                    <span class="label-name">Laravel</span>
+                    <span class="label-line"></span>
+                    <span class="label-sub">PHP Framework</span>
+                </div>
+            </div>
+
+            <div class="laravel-right">
+                <p class="laravel-label">Behind This Website</p>
+                <h2 class="laravel-title">Built With<br>Laravel</h2>
+                <div class="laravel-divider"></div>
+                <p class="laravel-text">
+                    Fun fact — this very portfolio you're browsing right now was
+                    built using the <strong>Laravel</strong> framework. From the
+                    Blade templating engine powering every section on this page,
+                    to the clean <strong>MVC architecture</strong> and named
+                    <strong>routing</strong> handling navigation between pages,
+                    Laravel made it possible to structure this site the way a
+                    real-world web application should be built. It's the same
+                    framework I reach for whenever I need to ship a fast,
+                    maintainable, and well-organized PHP web app.
+                </p>
+                <div class="laravel-tags">
+                    <span class="laravel-tag">🔴 Laravel</span>
+                    <span class="laravel-tag">🧩 Blade</span>
+                    <span class="laravel-tag">🏗️ MVC</span>
+                    <span class="laravel-tag">🐘 PHP</span>
+                    <span class="laravel-tag">🛣️ Routing</span>
+                    <span class="laravel-tag">🗃️ Eloquent ORM</span>
+                </div>
+                <a href="{{ route('projects') }}" class="laravel-btn">
+                    View Web Projects →
+                </a>
+            </div>
+
+        </section>
+
     </div><!-- end .page-wrapper -->
 
     <div class="scroll-indicator" id="scrollIndicator">
@@ -1178,6 +1500,23 @@
 
         /* ── FLUTTER TAG SWEEP ── */
         document.querySelectorAll('.flutter-tag').forEach(tag => {
+            tag.addEventListener('mouseenter', () => {
+                tag.classList.remove('sweep');
+                void tag.offsetWidth;
+                tag.classList.add('sweep');
+            });
+        });
+
+        /* ── LARAVEL LOGO BOX SWEEP ── */
+        const laravelLogoBox = document.getElementById('laravelLogoBox');
+        laravelLogoBox.addEventListener('mouseenter', () => {
+            laravelLogoBox.classList.remove('sweep');
+            void laravelLogoBox.offsetWidth;
+            laravelLogoBox.classList.add('sweep');
+        });
+
+        /* ── LARAVEL TAG SWEEP ── */
+        document.querySelectorAll('.laravel-tag').forEach(tag => {
             tag.addEventListener('mouseenter', () => {
                 tag.classList.remove('sweep');
                 void tag.offsetWidth;
@@ -1240,6 +1579,27 @@
                 }
             });
         }, { threshold: 0.15 }).observe(flutterSection);
+
+        /* ── SCROLL-TRIGGERED ANIMATIONS (Laravel) ── */
+        const laravelSection = document.querySelector('#laravelSection');
+        const laravelTargets = laravelSection.querySelectorAll(
+            '.laravel-logo-container, .laravel-logo-label, .laravel-label, .laravel-title, .laravel-divider, .laravel-text, .laravel-tag, .laravel-btn'
+        );
+
+        laravelTargets.forEach((el, i) => {
+            el.style.opacity    = '0';
+            el.style.transform  = 'translateY(24px)';
+            el.style.transition = `opacity 0.6s ease ${i * 0.08}s, transform 0.6s ease ${i * 0.08}s`;
+        });
+
+        new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    laravelTargets.forEach(el => { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; });
+                    obs.disconnect();
+                }
+            });
+        }, { threshold: 0.15 }).observe(laravelSection);
 
         /* ── PAGE FADE-OUT ON NAVIGATION ── */
         document.querySelectorAll('a[href]').forEach(link => {

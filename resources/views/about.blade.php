@@ -578,15 +578,19 @@
                     <p class="bio-label">Who I Am</p>
 
                     <p class="bio-intro">
-                        I'm a developer driven by curiosity — always learning, always refining — so that every project I deliver meets a high standard of clean, quality work.
+                        I build things I'm proud of clean code, thoughtful design, and work that actually holds up.
                     </p>
 
                     <p class="bio-body">
-                        I'm Monjhie Dulay, a web developer who approaches every project with genuine eagerness to learn. I take the time to understand new tools, frameworks, and best practices across the stack, because that continuous growth is what allows me to write clean, maintainable code and deliver work I can stand behind.
+                        I'm Monjhie Dulay, a web developer. I like figuring out how things work, new tools, new frameworks, whatever a project calls for, because that's what lets me write code I can actually stand behind, not just code that runs.
                     </p>
 
                     <p class="bio-body">
-                        I hold myself to a high standard in every detail — from thoughtful design and solid architecture to well-tested, production-ready code. Whether I'm exploring emerging technologies or refining a personal project, my goal stays the same: consistent quality, built on a genuine commitment to the craft.
+                        I care about getting the details right: solid architecture, clean design, code that's tested before it ships. Doesn't matter if it's a client project or something I'm building on my own time, I hold it to the same standard.
+                    </p>
+
+                    <p class="bio-body">
+                        I also work with AI tools like <strong style="color:#6d28d9;">Claude</strong>, <strong style="color:#6d28d9;">ChatGPT</strong>, and <strong style="color:#6d28d9;">Cursor</strong> as part of my modern development workflow, using them to speed up debugging, explore solutions faster, and reduce repetitive work, while I stay in control of the architecture, logic, and final code quality. It's a practical skill set that reflects how development teams build software today.
                     </p>
 
                     <!-- Quick-info grid -->
@@ -932,6 +936,41 @@
                             </div>
                         </div>
                     </div><!-- end Group 6 -->
+
+                    <!-- ── Group 7: AI-Augmented Development ── -->
+                    <div class="skill-group">
+                        <p class="skill-group-title">AI-Augmented Development</p>
+
+                        <div class="skill-item">
+                            <div class="skill-meta">
+                                <span class="skill-name">Claude</span>
+                                <span class="skill-pct" data-target="90">0%</span>
+                            </div>
+                            <div class="skill-track">
+                                <div class="skill-bar" data-width="90"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-item">
+                            <div class="skill-meta">
+                                <span class="skill-name">ChatGPT</span>
+                                <span class="skill-pct" data-target="85">0%</span>
+                            </div>
+                            <div class="skill-track">
+                                <div class="skill-bar" data-width="85"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-item">
+                            <div class="skill-meta">
+                                <span class="skill-name">Cursor</span>
+                                <span class="skill-pct" data-target="80">0%</span>
+                            </div>
+                            <div class="skill-track">
+                                <div class="skill-bar" data-width="80"></div>
+                            </div>
+                        </div>
+                    </div><!-- end Group 7 -->
 
                 </div><!-- end .skills-section -->
 
