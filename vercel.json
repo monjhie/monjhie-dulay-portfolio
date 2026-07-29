@@ -1,13 +1,16 @@
 {
   "version": 2,
-  "functions": {
-    "api/index.php": { "runtime": "vercel-php@0.9.0" }
-  },
+  "framework": null,
+  "builds": [
+    { "src": "api/index.php", "use": "vercel-php@0.7.4" },
+    { "src": "public/**", "use": "@vercel/static" }
+  ],
   "routes": [
     { "src": "/(images|css|js|fonts|games|CanteenOrderingAppPreview|build)/(.*)", "dest": "/public/$1/$2" },
     { "src": "/favicon.ico", "dest": "/public/favicon.ico" },
     { "src": "/(.*)", "dest": "/api/index.php" }
   ],
+  "outputDirectory": "public",
   "env": {
     "APP_ENV": "production",
     "APP_DEBUG": "false",
