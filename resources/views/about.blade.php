@@ -596,7 +596,7 @@
                     <!-- Quick-info grid -->
                     <div class="bio-details">
                         <div class="detail-item">
-                            <p class="detail-label">Focus</p>
+                            <p class="detail-label">Focus </p>
                             <p class="detail-value">Full-Stack Web</p>
                         </div>
                         <div class="detail-item">
