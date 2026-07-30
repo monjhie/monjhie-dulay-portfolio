@@ -19,10 +19,20 @@
             --muted:   #7c7799;
             --border:  #e0d9ff;
             --grad:    linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+            /* Single source of truth for the photo's decorative overhang.
+               Capped at 50px on large screens, but on narrow screens it
+               shrinks to match the page's own 6vw side padding so the
+               negative margin used below can never pull content past the
+               edge of the viewport (that mismatch was the cause of the
+               horizontal scroll on mobile). */
+            --photo-overhang: min(50px, 6vw);
         }
 
         html, body {
             min-height: 100%;
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
         }
 
         body {
@@ -70,6 +80,7 @@
             max-width: 1300px;
             margin: 0 auto;
             background: transparent;
+            overflow-x: hidden;
         }
 
         /* ══════════════════════════════════════
@@ -89,6 +100,11 @@
             pointer-events: none;
             user-select: none;
             white-space: nowrap;
+            /* Safety net: even if the nowrap text is wider than expected
+               on an unusual viewport, it gets clipped here rather than
+               ever forcing the page to scroll horizontally. */
+            max-width: 94vw;
+            overflow: hidden;
         }
 
         .id-bg-text-top {
@@ -462,29 +478,13 @@
             position: static;
             /* Give breathing room so the decoration overhanging the top-left
                isn't clipped by the parent. Padding offset by negative margin
-               keeps the layout from shifting. */
-            padding-top: 50px;
-            padding-left: 50px;
-            margin-top: -50px;
-            margin-left: -50px;
-        }
-
-        @media (max-width: 768px) {
-            .about-photo-wrap {
-                padding-top: 44px;
-                padding-left: 44px;
-                margin-top: -44px;
-                margin-left: -44px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .about-photo-wrap {
-                padding-top: 36px;
-                padding-left: 36px;
-                margin-top: -36px;
-                margin-left: -36px;
-            }
+               keeps the layout from shifting. The value is capped so it can
+               never exceed .about-page's own 6vw side padding — that's what
+               was causing the horizontal scroll on narrow phones before. */
+            padding-top: var(--photo-overhang);
+            padding-left: var(--photo-overhang);
+            margin-top: calc(var(--photo-overhang) * -1);
+            margin-left: calc(var(--photo-overhang) * -1);
         }
 
         /* ══════════════════════════════════════
@@ -582,12 +582,18 @@
             filter: saturate(1.08);
         }
 
-        /* ── Band-aid decoration (larger + edge-hugging on all devices) ── */
+        /* ── Band-aid decoration (larger + edge-hugging on all devices) ──
+           top/left are tied to the same --photo-overhang variable as the
+           wrapper's padding/margin above, so they always cancel out
+           correctly and the decoration can bleed to the edge without ever
+           pushing the page wider than the viewport. Width now scales
+           fluidly with clamp() instead of jumping between fixed
+           breakpoints. */
         .bandaid-decoration {
             position: absolute;
-            top: -50px;
-            left: -50px;
-            width: clamp(150px, 38%, 240px);
+            top: calc(var(--photo-overhang) * -1);
+            left: calc(var(--photo-overhang) * -1);
+            width: clamp(110px, 30vw, 240px);
             height: auto;
             z-index: 10;
             pointer-events: none;
@@ -597,25 +603,6 @@
 
         .photo-frame:hover .bandaid-decoration {
             transform: rotate(-6deg) translateY(-4px);
-        }
-
-        /* iPad mini (768px) — single column, photo fills wider area,
-           pull the decoration back to the edge of the photo frame */
-        @media (max-width: 768px) {
-            .bandaid-decoration {
-                top: -44px;
-                left: -44px;
-                width: clamp(150px, 28vw, 210px);
-            }
-        }
-
-        /* Small phones — keep it from clipping too far off-screen */
-        @media (max-width: 480px) {
-            .bandaid-decoration {
-                top: -36px;
-                left: -36px;
-                width: clamp(120px, 32vw, 160px);
-            }
         }
 
         .photo-caption {
