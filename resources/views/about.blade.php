@@ -66,10 +66,338 @@
            PAGE LAYOUT
         ══════════════════════════════════════ */
         .about-page {
-            padding: 120px 6vw 100px;
+            padding: 60px 6vw 100px;
             max-width: 1300px;
             margin: 0 auto;
             background: transparent;
+        }
+
+        /* ══════════════════════════════════════
+           SECTION 0 — INTERACTIVE ID CARD
+        ══════════════════════════════════════ */
+        /* ── Big outlined name text sitting behind the ID card ── */
+        .id-bg-text {
+            position: absolute;
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: clamp(2.6rem, 9vw, 7rem);
+            line-height: 1;
+            letter-spacing: -0.01em;
+            color: transparent;
+            -webkit-text-stroke: 1.5px rgba(139, 92, 246, 0.28);
+            z-index: 1;
+            pointer-events: none;
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        .id-bg-text-top {
+            top: 100px;
+            left: 2vw;
+        }
+
+        .id-bg-text-bottom {
+            bottom: 0;
+            right: 2vw;
+        }
+
+        @media (max-width: 640px) {
+            .id-bg-text {
+                font-size: clamp(2rem, 13vw, 3.2rem);
+                -webkit-text-stroke: 1.2px rgba(139, 92, 246, 0.28);
+            }
+        }
+
+        .id-card-wrap {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            padding: 150px 6vw 60px;
+            opacity: 0;
+            overflow: visible;
+            animation: fadeUp 0.7s 0.15s ease forwards;
+        }
+
+        @media (max-width: 768px) {
+            .id-card-wrap { padding: 130px 6vw 50px; }
+        }
+
+        @media (max-width: 480px) {
+            .id-card-wrap { padding: 108px 6vw 36px; }
+        }
+
+        /* ── The peg the lace hangs from ── */
+        .lanyard-anchor {
+            position: absolute;
+            top: 54px;
+            left: 50%;
+            width: 22px;
+            height: 22px;
+            margin-left: -11px;
+            border-radius: 50%;
+            background: linear-gradient(160deg, #4c1d95, #7c3aed);
+            box-shadow: 0 4px 10px rgba(76, 29, 149, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.4);
+            z-index: 3;
+        }
+
+        .lanyard-anchor::after {
+            content: '';
+            position: absolute;
+            inset: 5px;
+            border-radius: 50%;
+            background: #f5f3ff;
+        }
+
+        /* ── The lace itself (an SVG path so it can bend as you drag) ── */
+        .lanyard-svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .lanyard-path-bg {
+            fill: none;
+            stroke: url(#laceGradient);
+            stroke-width: 20;
+            stroke-linecap: round;
+        }
+
+        .lanyard-path-edge {
+            fill: none;
+            stroke: rgba(30, 27, 75, 0.18);
+            stroke-width: 20;
+            stroke-linecap: round;
+            fill-rule: evenodd;
+        }
+
+        .lanyard-path-weave {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.4);
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-dasharray: 5 7;
+        }
+
+        /* ── "Developer" tag printed on the lace ── */
+        .lanyard-label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 5px 14px;
+            background: #ffffff;
+            border-radius: 4px;
+            font-family: 'Syne', sans-serif;
+            font-size: 0.62rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #6d28d9;
+            box-shadow: 0 4px 10px rgba(76, 29, 149, 0.28);
+            white-space: nowrap;
+            z-index: 4;
+            pointer-events: none;
+        }
+
+        /* ── Metal clip connecting the lace to the card ── */
+        .id-card-clip {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 44px;
+            height: 20px;
+            background: linear-gradient(160deg, #e5e7eb 0%, #9ca3af 55%, #d1d5db 100%);
+            border-radius: 5px;
+            z-index: 4;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+        }
+
+        .id-card-clip::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 50%;
+            width: 16px;
+            height: 7px;
+            transform: translateX(-50%);
+            border: 2px solid #6b7280;
+            border-bottom: none;
+            border-radius: 7px 7px 0 0;
+        }
+
+        .id-card {
+            width: 320px;
+            max-width: 90vw;
+            perspective: 1600px;
+            position: relative;
+            z-index: 5;
+            cursor: grab;
+            touch-action: none;
+            -webkit-user-select: none;
+            user-select: none;
+            transform-origin: top center;
+        }
+
+        .id-card.dragging {
+            cursor: grabbing;
+        }
+
+        .id-card.dragging .id-card-inner {
+            transition: none;
+        }
+
+        .id-card-inner {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 320 / 460;
+            transform-style: preserve-3d;
+            transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .id-card.is-flipped .id-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .id-card-face {
+            position: absolute;
+            inset: 0;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            background: linear-gradient(160deg, #ffffff 0%, #f5f3ff 100%);
+            border: 1px solid var(--border);
+            box-shadow: 0 25px 60px rgba(99, 102, 241, 0.22);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 46px 28px 28px;
+            text-align: center;
+        }
+
+        @media (max-width: 380px) {
+            .id-card-face { padding: 34px 18px 20px; }
+            .id-card-photo { width: 96px; height: 96px; margin: 16px 0 14px; }
+            .id-card-name { font-size: 1.12rem; }
+        }
+
+        .id-card-back {
+            transform: rotateY(180deg);
+            background: linear-gradient(160deg, #1e1b4b 0%, #2d1b4e 100%);
+            color: var(--white);
+            justify-content: flex-start;
+        }
+
+        .id-card-back .id-card-clip {
+            background: linear-gradient(160deg, #d1d5db 0%, #6b7280 55%, #9ca3af 100%);
+        }
+
+        .id-card-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 22px 0 18px;
+            border: 3px solid #fff;
+            box-shadow: 0 10px 24px rgba(139, 92, 246, 0.3);
+            flex-shrink: 0;
+        }
+
+        .id-card-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .id-card-name {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--black);
+            letter-spacing: -0.01em;
+        }
+
+        .id-card-role {
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--muted);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-top: 6px;
+        }
+
+        .id-card-barcode {
+            width: 80%;
+            height: 34px;
+            margin-top: auto;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--black) 0px, var(--black) 2px,
+                transparent 2px, transparent 5px
+            );
+            opacity: 0.65;
+        }
+
+        .id-card-number {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            margin-top: 10px;
+        }
+
+        .id-card-flip-hint {
+            font-size: 0.62rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #a78bfa;
+            margin-top: 12px;
+            font-weight: 600;
+        }
+
+        .id-card-back-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #a5b4fc, #f0abfc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: 26px 0 20px;
+        }
+
+        .id-card-info {
+            list-style: none;
+            width: 100%;
+            text-align: left;
+            padding: 0 6px;
+        }
+
+        .id-card-info li {
+            display: flex;
+            flex-direction: column;
+            font-size: 0.85rem;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(167, 139, 250, 0.2);
+        }
+
+        .id-card-info li span {
+            font-size: 0.6rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #c4bfe0;
+            margin-bottom: 4px;
+        }
+
+        .id-card-back .id-card-flip-hint {
+            margin-top: auto;
+            padding-top: 16px;
         }
 
         /* ══════════════════════════════════════
@@ -342,6 +670,10 @@
             margin-bottom: 40px;
         }
 
+        @media (max-width: 420px) {
+            .bio-details { grid-template-columns: 1fr; gap: 18px; }
+        }
+
         .detail-label {
             font-size: 0.65rem;
             letter-spacing: 0.18em;
@@ -537,6 +869,73 @@
     <x-navbar />
 
     <div class="page-wrapper">
+
+        <!-- ══════════════════════════════════════
+             SECTION 0 — INTERACTIVE ID CARD
+        ══════════════════════════════════════ -->
+        <div class="id-card-wrap" id="idCardWrap">
+
+            <!-- Big name watermark, sitting behind the card -->
+            <span class="id-bg-text id-bg-text-top" aria-hidden="true">MONJHIE</span>
+            <span class="id-bg-text id-bg-text-bottom" aria-hidden="true">DULAY</span>
+
+            <!-- Peg the lace hangs from -->
+            <div class="lanyard-anchor" id="lanyardAnchor"></div>
+
+            <!-- The lace, drawn as a curve so it bends while you drag -->
+            <svg class="lanyard-svg" id="lanyardSvg">
+                <defs>
+                    <linearGradient id="laceGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#6366f1"/>
+                        <stop offset="50%" stop-color="#a855f7"/>
+                        <stop offset="100%" stop-color="#ec4899"/>
+                    </linearGradient>
+                </defs>
+                <path id="lanyardPathEdge" class="lanyard-path-edge"></path>
+                <path id="lanyardPathBg" class="lanyard-path-bg"></path>
+                <path id="lanyardPathWeave" class="lanyard-path-weave"></path>
+            </svg>
+
+            <!-- Printed tag sewn onto the lace -->
+            <div class="lanyard-label" id="lanyardLabel">Developer</div>
+
+            <div class="id-card" id="idCard">
+                <div class="id-card-inner">
+
+                    <!-- FRONT FACE -->
+                    <div class="id-card-face id-card-front">
+                        <div class="id-card-clip"></div>
+
+                        <div class="id-card-photo">
+                            <img src="{{ asset('images/id_pic.png') }}" alt="Monjhie Dulay">
+                        </div>
+
+                        <p class="id-card-name">Monjhie Dulay</p>
+                        <p class="id-card-role">Full-Stack Web Developer</p>
+
+                        <div class="id-card-barcode"></div>
+                        <p class="id-card-number">ID No. DEV-2026-001</p>
+                        <p class="id-card-flip-hint">Drag to swing &middot; Tap to flip &#8635;</p>
+                    </div>
+
+                    <!-- BACK FACE -->
+                    <div class="id-card-face id-card-back">
+                        <div class="id-card-clip"></div>
+
+                        <p class="id-card-back-title">Quick Info</p>
+                        <ul class="id-card-info">
+                            <li><span>Focus</span>Full-Stack Web</li>
+                            <li><span>Available For</span>Freelance / Full-time</li>
+                            <li><span>Languages</span>Filipino, English</li>
+                            <li><span>Approach</span>Design-First</li>
+                        </ul>
+                        <p class="id-card-flip-hint">Tap to flip back &#8634;</p>
+                    </div>
+
+                </div><!-- end .id-card-inner -->
+            </div><!-- end .id-card -->
+        </div><!-- end .id-card-wrap -->
+
         <div class="about-page">
 
             <!-- ── Page label & main heading ── -->
@@ -981,6 +1380,246 @@
 
 
     <script>
+        /* ══════════════════════════════════════
+           INTERACTIVE ID CARD — DRAGGABLE LANYARD SWING
+           Click/tap (no movement) flips the card.
+           Click-and-drag pulls it off the lace, which bends
+           to follow, then it swings back to rest like a
+           real lanyard when you let go.
+        ══════════════════════════════════════ */
+        (function () {
+            const wrap        = document.getElementById('idCardWrap');
+            const card        = document.getElementById('idCard');
+            const anchor      = document.getElementById('lanyardAnchor');
+            const pathEdge    = document.getElementById('lanyardPathEdge');
+            const pathBg      = document.getElementById('lanyardPathBg');
+            const pathWeave   = document.getElementById('lanyardPathWeave');
+            const label       = document.getElementById('lanyardLabel');
+
+            if (!wrap || !card || !anchor) return;
+
+            let posX = 0, posY = 0, angle = 0;
+            let velX = 0, velY = 0, angleVel = 0;
+            let dragging = false, moved = false;
+            let startX = 0, startY = 0, origX = 0, origY = 0;
+            let lastX = 0, lastY = 0, lastTime = 0;
+            let rafId = null;
+
+            // mode: 'idle' (ambient sway), 'dragging', or 'springback' (returning to rest)
+            let mode = 'idle';
+            let idleStart = performance.now();
+            // small random offsets so the two card instances on a page (if any) never sync up
+            const idlePhaseA = Math.random() * Math.PI * 2;
+            const idlePhaseB = Math.random() * Math.PI * 2;
+
+            // The card's natural, untransformed top-center position relative
+            // to the wrap. getBoundingClientRect() on a *rotated* element
+            // returns its axis-aligned bounding box, not the actual pivot
+            // point — that's what was making the lace look detached while
+            // swinging. Since the card only rotates around its own
+            // transform-origin (top center) and is then translated by
+            // (posX, posY), the true attachment point in screen space is
+            // always just this static position plus the current offset,
+            // regardless of angle.
+            let staticClipX = 0;
+            let staticClipY = 0;
+
+            function recomputeStaticClipPoint() {
+                staticClipX = card.offsetLeft + card.offsetWidth / 2;
+                staticClipY = card.offsetTop - 5; // aligns with the metal clip graphic
+            }
+
+            function getAnchorPoint() {
+                const wrapRect = wrap.getBoundingClientRect();
+                const aRect = anchor.getBoundingClientRect();
+                return {
+                    x: aRect.left + aRect.width / 2 - wrapRect.left,
+                    y: aRect.top + aRect.height / 2 - wrapRect.top
+                };
+            }
+
+            function getClipPoint() {
+                return {
+                    x: staticClipX + posX,
+                    y: staticClipY + posY
+                };
+            }
+
+            function updateLace() {
+                const a = getAnchorPoint();
+                const c = getClipPoint();
+                const midX = (a.x + c.x) / 2;
+                const sag  = 10 + Math.min(Math.abs(posX) * 0.1, 30);
+                const midY = (a.y + c.y) / 2 - sag * 0.15;
+
+                const d = `M${a.x},${a.y} Q${midX},${midY} ${c.x},${c.y}`;
+                pathEdge.setAttribute('d', d);
+                pathBg.setAttribute('d', d);
+                pathWeave.setAttribute('d', d);
+
+                // Position the "Developer" tag at the midpoint of the curve,
+                // rotated to match the lace's angle at that point.
+                const t = 0.48;
+                const lx = (1 - t) * (1 - t) * a.x + 2 * (1 - t) * t * midX + t * t * c.x;
+                const ly = (1 - t) * (1 - t) * a.y + 2 * (1 - t) * t * midY + t * t * c.y;
+                const dx = 2 * (1 - t) * (midX - a.x) + 2 * t * (c.x - midX);
+                const dy = 2 * (1 - t) * (midY - a.y) + 2 * t * (c.y - midY);
+                let labelAngle = Math.atan2(dy, dx) * 180 / Math.PI;
+                if (labelAngle > 90) labelAngle -= 180;
+                if (labelAngle < -90) labelAngle += 180;
+
+                label.style.left = lx + 'px';
+                label.style.top = ly + 'px';
+                label.style.transform = `translate(-50%, -50%) rotate(${labelAngle}deg)`;
+            }
+
+            function updateCardTransform() {
+                card.style.transform = `translate(${posX}px, ${posY}px) rotate(${angle}deg)`;
+                updateLace();
+            }
+
+            function clamp(v, min, max) {
+                return Math.max(min, Math.min(max, v));
+            }
+
+            // Keeps the card from being dragged past the edges of the
+            // viewport on narrow phones, while allowing a wide swing on desktop.
+            function maxDragX() {
+                const wrapWidth = wrap.getBoundingClientRect().width;
+                const cardWidth = card.getBoundingClientRect().width;
+                return Math.max(60, wrapWidth / 2 - cardWidth / 2 - 12);
+            }
+
+            function onPointerDown(e) {
+                dragging = true;
+                mode = 'dragging';
+                moved = false;
+                card.classList.add('dragging');
+                card.setPointerCapture(e.pointerId);
+                startX = e.clientX;
+                startY = e.clientY;
+                origX = posX;
+                origY = posY;
+                lastX = e.clientX;
+                lastY = e.clientY;
+                lastTime = performance.now();
+                velX = 0;
+                velY = 0;
+            }
+
+            function onPointerMove(e) {
+                if (!dragging) return;
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                if (Math.abs(dx) > 4 || Math.abs(dy) > 4) moved = true;
+
+                const maxX = maxDragX();
+                posX = clamp(origX + dx, -maxX, maxX);
+                posY = clamp(origY + dy, -30, 260);
+                angle = clamp(dx * 0.12, -32, 32);
+
+                const now = performance.now();
+                const dt = Math.max(now - lastTime, 1);
+                velX = (e.clientX - lastX) / dt * 16;
+                velY = (e.clientY - lastY) / dt * 16;
+                lastX = e.clientX;
+                lastY = e.clientY;
+                lastTime = now;
+
+                updateCardTransform();
+            }
+
+            function onPointerUp(e) {
+                if (!dragging) return;
+                dragging = false;
+                card.classList.remove('dragging');
+                try { card.releasePointerCapture(e.pointerId); } catch (err) {}
+
+                if (!moved) {
+                    card.classList.toggle('is-flipped');
+                }
+
+                angleVel = clamp(velX * 0.5, -14, 14);
+                mode = 'springback';
+            }
+
+            // One damped-spring step, pulling the card back toward rest.
+            // Returns true once it has settled down to near-zero motion.
+            function springStep() {
+                const stiffness = 0.09;
+                const damping = 0.84;
+
+                const fx = -posX * stiffness;
+                const fy = -posY * stiffness;
+                const fa = -angle * stiffness * 1.4;
+
+                velX = (velX + fx) * damping;
+                velY = (velY + fy) * damping;
+                angleVel = (angleVel + fa) * damping;
+
+                posX += velX;
+                posY += velY;
+                angle += angleVel;
+
+                const settled =
+                    Math.abs(posX) < 0.3 && Math.abs(posY) < 0.3 &&
+                    Math.abs(angle) < 0.3 && Math.abs(velX) < 0.3 &&
+                    Math.abs(velY) < 0.3 && Math.abs(angleVel) < 0.3;
+
+                if (settled) {
+                    posX = 0;
+                    posY = 0;
+                    angle = 0;
+                }
+                return settled;
+            }
+
+            // Gentle, never-ending ambient sway so the ID always feels
+            // like it's really hanging on a lace, not just sitting still.
+            function idleSway(now) {
+                const t = (now - idleStart) / 1000;
+                // two slightly-detuned sine waves so the motion doesn't
+                // feel like a perfect, robotic loop
+                angle =
+                    Math.sin(t * 0.55 + idlePhaseA) * 3.2 +
+                    Math.sin(t * 0.37 + idlePhaseB) * 1.6;
+                posX = 0;
+                posY = Math.sin(t * 0.55 + idlePhaseA) * 1.5 + 1.5;
+            }
+
+            // Single persistent loop: always running, branches on mode.
+            function frameLoop(now) {
+                if (mode === 'dragging') {
+                    // pointermove already applies the transform directly
+                } else if (mode === 'springback') {
+                    const settled = springStep();
+                    updateCardTransform();
+                    if (settled) {
+                        mode = 'idle';
+                        idleStart = now;
+                    }
+                } else {
+                    idleSway(now);
+                    updateCardTransform();
+                }
+                rafId = requestAnimationFrame(frameLoop);
+            }
+
+            card.addEventListener('pointerdown', onPointerDown);
+            card.addEventListener('pointermove', onPointerMove);
+            card.addEventListener('pointerup', onPointerUp);
+            card.addEventListener('pointercancel', onPointerUp);
+
+            window.addEventListener('resize', () => {
+                recomputeStaticClipPoint();
+                updateLace();
+            });
+            recomputeStaticClipPoint();
+            updateCardTransform();
+            rafId = requestAnimationFrame(frameLoop);
+        })();
+
+
         /* ══════════════════════════════════════
            INTERACTIVE PHOTO — 3D TILT + CURSOR SHEEN
         ══════════════════════════════════════ */
