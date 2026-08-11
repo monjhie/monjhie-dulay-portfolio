@@ -748,7 +748,7 @@
             <section class="project-section" data-category="website">
                 <div class="project-media">
                     <div class="project-media-frame">
-                        <img src="{{ asset('images/project_meekos_haven.png') }}" alt="Meeko's Haven"
+                        <img src="{{ asset('images/project_website_1.png') }}" alt="Meeko's Haven"
                              onerror="this.parentElement.innerHTML='<div class=\'project-media-placeholder\'>No Image</div>'">
                     </div>
                 </div>
