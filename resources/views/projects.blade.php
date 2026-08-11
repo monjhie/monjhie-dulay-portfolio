@@ -268,6 +268,46 @@
             border-radius: 50%;
         }
 
+        /* ── PROJECT YEAR BADGE ── */
+        .project-label-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-label-row .project-label {
+            margin-bottom: 0;
+        }
+
+        .project-year {
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            padding: 0.25rem 0.7rem;
+            border-radius: 50px;
+            white-space: nowrap;
+        }
+
+        .project-section:nth-child(odd) .project-year {
+            color: #6d28d9;
+            background-color: rgba(139, 92, 246, 0.12);
+            border: 1px solid rgba(167, 139, 250, 0.4);
+        }
+
+        .project-section:nth-child(even) .project-year {
+            color: #0369a1;
+            background-color: rgba(14, 165, 233, 0.12);
+            border: 1px solid #bae6fd;
+        }
+
+        @media (max-width: 900px) {
+            .project-label-row {
+                justify-content: center;
+            }
+        }
+
         .project-title {
             font-size: clamp(1.8rem, 2.6vw, 2.8rem);
             font-weight: 900;
@@ -649,7 +689,10 @@
                     </div>
                 </div>
                 <div class="project-content">
-                    <p class="project-label">Game Development</p>
+                    <div class="project-label-row">
+                        <p class="project-label">Game Development</p>
+                        <span class="project-year">2026</span>
+                    </div>
                     <h2 class="project-title">Wizard Curse</h2>
                     <div class="project-divider"></div>
                     <p class="project-desc">
@@ -679,7 +722,10 @@
                     </div>
                 </div>
                 <div class="project-content">
-                    <p class="project-label">Mobile Development</p>
+                    <div class="project-label-row">
+                        <p class="project-label">Mobile Development</p>
+                        <span class="project-year">2025 - 2026</span>
+                    </div>
                     <h2 class="project-title">Canteen Ordering App</h2>
                     <div class="project-divider"></div>
                     <p class="project-desc">
@@ -702,12 +748,15 @@
             <section class="project-section" data-category="website">
                 <div class="project-media">
                     <div class="project-media-frame">
-                        <img src="{{ asset('images/project_website_1.png') }}" alt="Meeko's Haven"
+                        <img src="{{ asset('images/project_meekos_haven.png') }}" alt="Meeko's Haven"
                              onerror="this.parentElement.innerHTML='<div class=\'project-media-placeholder\'>No Image</div>'">
                     </div>
                 </div>
                 <div class="project-content">
-                    <p class="project-label">Web Development</p>
+                    <div class="project-label-row">
+                        <p class="project-label">Web Development</p>
+                        <span class="project-year">2025</span>
+                    </div>
                     <h2 class="project-title">Meeko's Haven</h2>
                     <div class="project-divider"></div>
                     <p class="project-desc">
