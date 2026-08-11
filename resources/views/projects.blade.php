@@ -698,6 +698,39 @@
                 </div>
             </section>
 
+            <!-- PROJECT — Meeko's Haven (CMS CRUD Website) -->
+            <section class="project-section" data-category="website">
+                <div class="project-media">
+                    <div class="project-media-frame">
+                        <img src="{{ asset('images/project_website_1.png') }}" alt="Meeko's Haven"
+                             onerror="this.parentElement.innerHTML='<div class=\'project-media-placeholder\'>No Image</div>'">
+                    </div>
+                </div>
+                <div class="project-content">
+                    <p class="project-label">Web Development</p>
+                    <h2 class="project-title">Meeko's Haven</h2>
+                    <div class="project-divider"></div>
+                    <p class="project-desc">
+                        An academic CRUD website for a home decoration business, built with PHP,
+                        jQuery, and AJAX for dynamic content handling, Bootstrap for layout, and
+                        custom CSS for responsiveness. It features a full CMS with role-based
+                        access for Super Admin, Admin, Editor, and User roles.
+                    </p>
+                    <div class="project-tags">
+                        <span class="project-tag">🐘 PHP</span>
+                        <span class="project-tag">🔄 AJAX</span>
+                        <span class="project-tag">💠 jQuery</span>
+                        <span class="project-tag">🎨 Bootstrap</span>
+                    </div>
+                    <div class="project-actions">
+                        <a href="https://meekos-haven.infinityfreeapp.com/"
+                           class="project-btn project-btn-primary"
+                           target="_blank">Live Demo</a>
+                        <a href="#" class="project-btn project-btn-outline" target="_blank">GitHub</a>
+                    </div>
+                </div>
+            </section>
+
         </div>
 
         <p class="projects-empty" id="projectsEmpty">No projects found in this category yet.</p>
