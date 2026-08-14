@@ -108,20 +108,29 @@
            slides/resizes to the selected button and crossfades its
            gradient in via opacity, so switching feels like one smooth
            motion instead of separate buttons popping on/off.
+
+           top/left are 0 here (not the row's padding) because the pill's
+           position is driven entirely by JS via `transform: translate(x, y)`
+           using each button's offsetLeft/offsetTop — that's what lets it
+           correctly follow a button onto a second line when the row wraps
+           on narrow screens, instead of only being able to slide sideways.
         */
         .filter-pill {
             position: absolute;
-            top: 0.35rem;
+            top: 0;
             left: 0;
-            height: calc(100% - 0.7rem);
+            width: 0;
+            height: 0;
             border-radius: 50px;
             background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
             box-shadow: 0 10px 26px rgba(139, 92, 246, 0.35);
             opacity: 0;
             transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
                         width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
                         opacity 0.3s ease;
             pointer-events: none;
+            will-change: transform;
         }
 
         .filter-pill.ready { opacity: 1; }
@@ -860,11 +869,13 @@
         }
 
         function movePillTo(btn) {
-            // btn.offsetLeft and the pill's absolute "left" are both measured
-            // from the same padding-box origin of .filter-row, so we can
-            // translate the pill straight to that value with no extra math.
+            // Use the button's own box (relative to .filter-row's padding
+            // edge — the same coordinate space the pill's transform/left/top
+            // originate from) so the pill lands correctly whether the row
+            // is a single line or has wrapped onto multiple lines.
             filterPill.style.width = btn.offsetWidth + 'px';
-            filterPill.style.transform = `translateX(${btn.offsetLeft}px)`;
+            filterPill.style.height = btn.offsetHeight + 'px';
+            filterPill.style.transform = `translate(${btn.offsetLeft}px, ${btn.offsetTop}px)`;
             filterPill.classList.add('ready');
         }
 
