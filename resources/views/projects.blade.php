@@ -87,17 +87,49 @@
             line-height: 1.8;
         }
 
-        /* ── FILTER TOGGLE ── */
+        /* ── FILTER TOGGLE (single shared border, segmented-control style) ── */
         .filter-row {
-            display: flex;
+            position: relative;
+            display: inline-flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 0.9rem;
-            margin-top: 2.2rem;
+            gap: 0.3rem;
+            margin: 2.2rem auto 0;
+            padding: 0.35rem;
+            border: 2px solid #ddd6fe;
+            border-radius: 50px;
+            background-color: #ffffff;
         }
+
+        /*
+           Only .filter-row carries the border now — the buttons themselves
+           are borderless and sit inside it. The "pill" that marks which
+           one is active is a single absolutely-positioned element that
+           slides/resizes to the selected button and crossfades its
+           gradient in via opacity, so switching feels like one smooth
+           motion instead of separate buttons popping on/off.
+        */
+        .filter-pill {
+            position: absolute;
+            top: 0.35rem;
+            left: 0;
+            height: calc(100% - 0.7rem);
+            border-radius: 50px;
+            background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+            box-shadow: 0 10px 26px rgba(139, 92, 246, 0.35);
+            opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .filter-pill.ready { opacity: 1; }
 
         .filter-btn {
             position: relative;
+            isolation: isolate;
+            z-index: 1;
             overflow: hidden;
             padding: 0.7rem 1.7rem;
             border-radius: 50px;
@@ -105,13 +137,12 @@
             font-weight: 800;
             letter-spacing: 1.5px;
             text-transform: uppercase;
-            border: 2px solid #ddd6fe;
-            background-color: #ffffff;
+            border: none;
+            background-color: transparent;
             color: #6d28d9;
             cursor: pointer;
             font-family: inherit;
-            transition: border-color 0.4s ease, color 0.4s ease, background 0.4s ease,
-                        transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
+            transition: color 0.35s ease;
         }
 
         .filter-btn::before {
@@ -119,6 +150,7 @@
             position: absolute;
             top: 0; left: -120%;
             width: 60%; height: 100%;
+            z-index: 1;
             background: linear-gradient(110deg, transparent 10%, rgba(255,255,255,0.55) 40%, rgba(255,255,255,0.85) 50%, rgba(255,255,255,0.55) 60%, transparent 90%);
             transform: skewX(-20deg);
             pointer-events: none;
@@ -127,16 +159,12 @@
 
         .filter-btn.sweep::before { animation: sweepShine 1.2s cubic-bezier(0.22,0.61,0.36,1) forwards; }
 
-        .filter-btn:hover {
-            border-color: #a855f7;
-            transform: translateY(-2px);
+        .filter-btn:not(.active):hover {
+            color: #a855f7;
         }
 
         .filter-btn.active {
-            border-color: transparent;
             color: #ffffff;
-            background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
-            box-shadow: 0 10px 26px rgba(139, 92, 246, 0.35);
         }
 
         /* ══════════════════════════════════════
@@ -670,6 +698,7 @@
             <p>A collection of games, websites, and applications I've built.</p>
 
             <div class="filter-row" id="filterRow">
+                <span class="filter-pill" id="filterPill"></span>
                 <button type="button" class="filter-btn active" data-filter="all">All</button>
                 <button type="button" class="filter-btn" data-filter="website">Website</button>
                 <button type="button" class="filter-btn" data-filter="application">Application</button>
@@ -813,10 +842,11 @@
         bindSweep('.project-tag');
         bindSweep('.filter-btn');
 
-        /* ── FILTER TOGGLE ── */
+        /* ── FILTER TOGGLE (single-select, sliding pill inside one shared border) ── */
         const filterButtons = document.querySelectorAll('.filter-btn');
         const projectSections = document.querySelectorAll('.project-section');
         const projectsEmpty = document.getElementById('projectsEmpty');
+        const filterPill = document.getElementById('filterPill');
 
         function applyFilter(filter) {
             let visibleCount = 0;
@@ -829,12 +859,38 @@
             projectsEmpty.classList.toggle('visible', visibleCount === 0);
         }
 
+        function movePillTo(btn) {
+            // btn.offsetLeft and the pill's absolute "left" are both measured
+            // from the same padding-box origin of .filter-row, so we can
+            // translate the pill straight to that value with no extra math.
+            filterPill.style.width = btn.offsetWidth + 'px';
+            filterPill.style.transform = `translateX(${btn.offsetLeft}px)`;
+            filterPill.classList.add('ready');
+        }
+
+        function setActiveButton(selectedBtn) {
+            filterButtons.forEach(b => b.classList.toggle('active', b === selectedBtn));
+            movePillTo(selectedBtn);
+        }
+
         filterButtons.forEach(btn => {
             btn.addEventListener('click', () => {
-                filterButtons.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
+                if (btn.classList.contains('active')) return; // no-op, already selected
+                setActiveButton(btn);
                 applyFilter(btn.getAttribute('data-filter'));
             });
+        });
+
+        // position the pill under the initially-active button once layout is ready
+        window.addEventListener('load', () => {
+            const initiallyActive = document.querySelector('.filter-btn.active') || filterButtons[0];
+            movePillTo(initiallyActive);
+        });
+        window.addEventListener('resize', () => {
+            const currentActive = document.querySelector('.filter-btn.active') || filterButtons[0];
+            filterPill.style.transition = 'none';
+            movePillTo(currentActive);
+            requestAnimationFrame(() => { filterPill.style.transition = ''; });
         });
 
         /* ── PAGE FADE-OUT ON NAVIGATION ── */

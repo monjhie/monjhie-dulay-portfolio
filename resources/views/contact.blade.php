@@ -64,8 +64,24 @@
         ══════════════════════════════════════ */
         .contact-page {
             padding: 120px 6vw 100px;
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
+        }
+
+        /* ══════════════════════════════════════
+           CARDS ROW — sits both cards side by side
+        ══════════════════════════════════════ */
+        .cards-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: start;
+            gap: 32px;
+        }
+
+        @media (max-width: 860px) {
+            .cards-row {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* ══════════════════════════════════════
@@ -108,14 +124,9 @@
         }
 
         /* ══════════════════════════════════════
-           CONTACT INFO CARD
+           SHARED CARD STYLE (used by both cards)
         ══════════════════════════════════════ */
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 0;
-            opacity: 0;
-            animation: fadeUp 0.7s 0.3s ease forwards;
+        .card {
             background-color: #ffffff;
             border: 1px solid var(--border);
             border-radius: 16px;
@@ -124,7 +135,15 @@
         }
 
         @media (max-width: 640px) {
-            .contact-info { padding: 32px 24px; }
+            .card { padding: 32px 24px; }
+        }
+
+        /* ══════════════════════════════════════
+           CARD #1 — CONTACT INFO
+        ══════════════════════════════════════ */
+        .contact-info {
+            opacity: 0;
+            animation: fadeUp 0.7s 0.3s ease forwards;
         }
 
         .info-intro {
@@ -141,7 +160,6 @@
             font-weight: 400;
         }
 
-        /* Info items */
         .info-list {
             display: flex;
             flex-direction: column;
@@ -195,10 +213,6 @@
             color: #ec4899;
         }
 
-        /* ── Address block — now behaves exactly like the other
-               .info-item rows (border, padding, hover nudge) so it
-               no longer looks/feels inconsistent with Name, Email,
-               Mobile Number, and Available for. ── */
         .address-block {
             padding: 20px 0;
             border-bottom: 1px solid var(--border);
@@ -227,9 +241,7 @@
             line-height: 1.7;
         }
 
-        /* ══════════════════════════════════════
-           SOCIAL LINKS
-        ══════════════════════════════════════ */
+        /* SOCIAL LINKS */
         .social-block {
             padding: 24px 0 0;
         }
@@ -303,6 +315,114 @@
             transform: translateY(-3px);
             box-shadow: 0 10px 24px rgba(139, 92, 246, 0.3), 0 2px 6px rgba(139, 92, 246, 0.15);
         }
+
+        /* ══════════════════════════════════════
+           CARD #2 — CONTACT FORM
+        ══════════════════════════════════════ */
+        .contact-form-card {
+            opacity: 0;
+            animation: fadeUp 0.7s 0.4s ease forwards;
+        }
+
+        .form-title {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(1.1rem, 1.8vw, 1.35rem);
+            font-weight: 600;
+            color: var(--black);
+            margin-bottom: 8px;
+        }
+
+        .form-subtitle {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin-bottom: 32px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--muted);
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.92rem;
+            color: var(--black);
+            background: var(--cream);
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: #a855f7;
+            box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.15);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 130px;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .form-submit {
+            appearance: none;
+            border: none;
+            border-radius: 10px;
+            padding: 14px 32px;
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.02em;
+            color: #ffffff;
+            background: var(--grad);
+            cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(139, 92, 246, 0.3);
+        }
+
+        .form-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .form-status {
+            margin-top: 18px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 500;
+            display: none;
+        }
+
+        .form-status.success {
+            color: #16a34a;
+            display: block;
+        }
+
+        .form-status.error {
+            color: #dc2626;
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -319,9 +439,14 @@
             <div class="divider"></div>
 
             <!-- ══════════════════════════════════════
-                 CONTACT INFO
+                 CARDS ROW — info card + form card, side by side
             ══════════════════════════════════════ -->
-            <div class="contact-info">
+            <div class="cards-row">
+
+            <!-- ══════════════════════════════════════
+                 CARD #1 — CONTACT INFO
+            ══════════════════════════════════════ -->
+            <div class="contact-info card">
 
                 <p class="info-intro">
                     Have a project in mind or just want to say hello?<br>
@@ -361,9 +486,7 @@
                         </p>
                     </div>
 
-                    <!-- ══════════════════════════════════════
-                         SOCIAL LINKS — Facebook, Instagram, Discord
-                    ══════════════════════════════════════ -->
+                    <!-- SOCIAL LINKS -->
                     <div class="social-block">
                         <p class="social-label">Follow / Connect</p>
                         <div class="social-row">
@@ -385,7 +508,48 @@
 
                 </div>
 
-            </div><!-- end .contact-info -->
+            </div><!-- end card #1 -->
+
+            <!-- ══════════════════════════════════════
+                 CARD #2 — CONTACT / SUBMIT FORM
+            ══════════════════════════════════════ -->
+            <div class="contact-form-card card">
+
+                <p class="form-title">Send a message</p>
+                <p class="form-subtitle">Fill this out and it'll land straight in my inbox.</p>
+
+                <!--
+                    ⚠️ REPLACE THE URL BELOW ⚠️
+                    1. Go to https://formspree.io and sign up (free)
+                    2. Create a new form, connect it to itsmonjhiedulay@gmail.com
+                    3. Copy the endpoint they give you (looks like https://formspree.io/f/xxxxxxxx)
+                    4. Paste it in place of "https://formspree.io/f/YOUR_FORM_ID" below
+                -->
+                <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+
+                    <div class="form-group">
+                        <label class="form-label" for="name">Your Name</label>
+                        <input class="form-input" type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="email">Your Email</label>
+                        <input class="form-input" type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="message">Message</label>
+                        <textarea class="form-textarea" id="message" name="message" required></textarea>
+                    </div>
+
+                    <button class="form-submit" type="submit" id="submitBtn">Send Message</button>
+
+                    <p class="form-status" id="formStatus"></p>
+                </form>
+
+            </div><!-- end card #2 -->
+
+            </div><!-- end .cards-row -->
 
         </div><!-- end .contact-page -->
     </div><!-- end .page-wrapper -->
@@ -419,6 +583,43 @@
                 void icon.offsetWidth;
                 icon.classList.add('sweep');
             });
+        });
+
+        /* ── CONTACT FORM SUBMISSION (via Formspree, no page reload) ── */
+        const contactForm = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const formStatus = document.getElementById('formStatus');
+
+        contactForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            formStatus.className = 'form-status';
+            formStatus.textContent = '';
+
+            try {
+                const response = await fetch(contactForm.action, {
+                    method: 'POST',
+                    body: new FormData(contactForm),
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (response.ok) {
+                    formStatus.textContent = "Thanks! Your message has been sent — I'll get back to you soon.";
+                    formStatus.className = 'form-status success';
+                    contactForm.reset();
+                } else {
+                    formStatus.textContent = 'Something went wrong. Please try again or email me directly.';
+                    formStatus.className = 'form-status error';
+                }
+            } catch (err) {
+                formStatus.textContent = 'Network error. Please check your connection and try again.';
+                formStatus.className = 'form-status error';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            }
         });
     </script>
 

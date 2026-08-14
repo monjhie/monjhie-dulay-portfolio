@@ -41,16 +41,20 @@
         }
 
         /* ══════════════════════════════════════
-           SECTION 1 — HERO (soft gradient background)
+           SECTION 1 - HERO (soft gradient background)
         ══════════════════════════════════════ */
         .hero {
+            position: relative;
             min-height: 100vh;
+            min-height: 100svh;   /* accounts for mobile browser toolbars so content/walker never jump on scroll */
             display: flex;
+            flex-direction: column;   /* stacks hero-center, then the walker strip below it — normal flow, never overlapping */
             align-items: center;
             justify-content: center;
             padding: 6rem 8rem;
             gap: 5rem;
             background: linear-gradient(135deg, #f5f3ff 0%, #eef2ff 45%, #fdf4ff 100%);
+            overflow: hidden;
         }
 
         /* ── NEW: Centered hero content wrapper ── */
@@ -101,13 +105,19 @@
             to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* ── ROLE PILLS (Web Developer / Game Developer) ── */
+        /* ── ROLE PILLS (Web Developer / Game Developer) ──
+           flex-wrap is intentionally OFF: wrapping let the "&" divider
+           end up orphaned next to whichever pill it landed beside. All
+           three pieces now scale down together with clamp() so they
+           always render as one clean line, on any device. */
         .hero-roles {
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             justify-content: center;
-            gap: 1rem;
+            align-items: center;
+            gap: clamp(0.5rem, 2vw, 1rem);
             margin-top: 0.5rem;
+            max-width: 100%;
             opacity: 0;
             animation: fadeUpHero 0.7s ease forwards;
             animation-delay: 0.45s;
@@ -116,9 +126,9 @@
         .role-pill {
             position: relative;
             overflow: hidden;
-            padding: 0.8rem 1.8rem;
+            padding: clamp(0.55rem, 2.2vw, 0.8rem) clamp(1rem, 4vw, 1.8rem);
             border-radius: 50px;
-            font-size: 1rem;
+            font-size: clamp(0.62rem, 2.4vw, 1rem);
             font-weight: 800;
             letter-spacing: 1.5px;
             text-transform: uppercase;
@@ -128,6 +138,8 @@
             box-shadow: 0 10px 26px rgba(139, 92, 246, 0.35);
             transition: background-position 0.5s ease, transform 0.3s ease, box-shadow 0.3s ease;
             cursor: default;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .role-pill::before {
@@ -154,7 +166,8 @@
             align-items: center;
             color: #a855f7;
             font-weight: 900;
-            font-size: 1.1rem;
+            font-size: clamp(0.75rem, 2vw, 1.1rem);
+            flex-shrink: 0;
         }
 
         @keyframes sweepShine {
@@ -194,6 +207,135 @@
             background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
             transform: translateY(-3px);
             box-shadow: 0 14px 32px rgba(139, 92, 246, 0.35);
+        }
+
+        /* ══════════════════════════════════════
+           SECTION — WALKER STRIP (its own section, right under hero)
+           Height is intentionally tight, just enough to fit the walking
+           girl + her banner — nothing more. Background cycles through
+           colors on a smooth, endless loop.
+        ══════════════════════════════════════ */
+        .walker-section {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            background: linear-gradient(270deg, #6366f1, #a855f7, #ec4899, #6366f1, #a855f7);
+            background-size: 400% 400%;
+            animation: walkerBgShift 14s ease infinite;
+        }
+
+        @keyframes walkerBgShift {
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* ══════════════════════════════════════
+           WALKING GIRL + FOLLOWING BANNER
+           Walks right → left, loops forever.
+           The banner trailing behind her lists all the role labels.
+        ══════════════════════════════════════ */
+        .walker-strip {
+            position: relative;        /* normal flow now, not pinned over the CTA/tags — can't overlap them */
+            width: 100%;
+            max-width: 100%;
+            height: clamp(70px, 16vw, 160px);
+            overflow: hidden;          /* clips her fully so nothing peeks in early or causes side-scroll */
+            pointer-events: none;
+        }
+
+        .walker {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            display: flex;
+            flex-direction: row;       /* banner trails behind her (to her left), not above her head */
+            align-items: center;
+            gap: clamp(0.3rem, 1.5vw, 0.6rem);
+            /* translateX(-100%) hides her fully behind her own width no
+               matter how long the banner text is, so she never pops into
+               view partway loaded — she always slides in from nothing */
+            transform: translateX(-100%);
+            animation: walkAcross 20s linear infinite;
+            will-change: transform;
+        }
+
+        @keyframes walkAcross {
+            0%   { transform: translateX(-100%); }  /* fully hidden, just past the left edge */
+            100% { transform: translateX(100vw); }  /* fully exits past the right edge */
+        }
+
+        /* Long banner that lists everything at once, trailing behind her
+           like a flag on her back — nothing has to cut off mid-lap or
+           restart before it's fully read. Every value below is fluid
+           (clamp) so it scales smoothly across phones, tablets, and
+           desktops instead of snapping at a couple of breakpoints. */
+        .walker-banner {
+            position: relative;
+            padding: clamp(0.4rem, 1.6vw, 0.6rem) clamp(0.9rem, 3.2vw, 1.6rem);
+            border-radius: 50px;
+            background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+            background-size: 200% auto;
+            color: #ffffff;
+            font-size: clamp(0.58rem, 1.7vw, 0.78rem);
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.35);
+            display: flex;
+            align-items: center;
+            gap: clamp(0.3rem, 1vw, 0.55rem);
+        }
+
+        .walker-banner .dot {
+            opacity: 0.7;
+            font-weight: 900;
+        }
+
+        /* small pennant tail pointing toward her back, instead of the
+           old speech-bubble pointer that used to point down at her head */
+        .walker-banner::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -8px;
+            transform: translateY(-50%);
+            width: 0; height: 0;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-right: 8px solid #6366f1;
+        }
+
+        .walker-gif {
+            height: clamp(56px, 11vw, 120px);
+            width: auto;
+            display: block;
+            /* the source gif faces left by default; flip it horizontally
+               so she visually faces right — the direction she's walking */
+            transform: scaleX(-1);
+            image-rendering: -webkit-optimize-contrast;
+        }
+
+        /* On short / landscape phone screens, slow the lap down slightly
+           so it doesn't feel rushed on a much narrower/shorter track. */
+        @media (max-width: 480px) {
+            .walker { animation-duration: 14s; }
+        }
+
+        @media (max-height: 640px) and (max-width: 860px) {
+            .walker-strip { height: 64px; }
+            .walker-gif   { height: 52px; }
+            .walker-banner{ font-size: 0.56rem; padding: 0.35rem 0.8rem; }
+        }
+
+        /* Width-independent guard: any device with a short viewport
+           (landscape tablets, small laptops with the browser toolbar
+           open, etc.) gets the same compact treatment. */
+        @media (max-height: 560px) {
+            .walker-strip { height: 58px; }
+            .walker-gif   { height: 46px; }
+            .walker-banner{ font-size: 0.5rem; padding: 0.3rem 0.7rem; }
         }
 
         /* ── (old hero classes kept in case reused elsewhere) ── */
@@ -432,7 +574,7 @@
         }
 
         /* ══════════════════════════════════════
-           SECTION 2 — GODOT (dark gradient background)
+           SECTION 2 - GODOT (dark gradient background)
         ══════════════════════════════════════ */
         .godot-section {
             background: linear-gradient(135deg, #0f0c29 0%, #1e1240 45%, #2d1b4e 100%);
@@ -450,7 +592,7 @@
                column above the logo box; the negative margin cancels
                the flex gap so it sits flush against the card, and the
                50% translateY centers the cat exactly on the border
-               line — half above the card, half overlapping inside it.
+               line - half above the card, half overlapping inside it.
                No JS positioning needed, so it stays correct at every
                screen size. ── */
         .cat-sit {
@@ -715,7 +857,7 @@
         }
 
         /* ══════════════════════════════════════
-           SECTION 3 — FLUTTER (soft gradient background)
+           SECTION 3 - FLUTTER (soft gradient background)
         ══════════════════════════════════════ */
         .flutter-section {
             background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 45%, #ecfeff 100%);
@@ -840,7 +982,7 @@
             box-shadow: 0 12px 28px rgba(14, 165, 233, 0.4);
         }
 
-        /* RIGHT — Logo stack */
+        /* RIGHT - Logo stack */
         .flutter-right {
             flex: 1;
             display: flex;
@@ -953,7 +1095,7 @@
         .db-badge .db-icon { font-size: 1.6rem; line-height: 1; }
 
         /* ══════════════════════════════════════
-           SECTION 4 — LARAVEL (dark gradient background)
+           SECTION 4 - LARAVEL (dark gradient background)
         ══════════════════════════════════════ */
         .laravel-section {
             background: linear-gradient(135deg, #1a0f0a 0%, #2b120a 45%, #3d150a 100%);
@@ -1193,8 +1335,6 @@
                 gap: 2.5rem;
                 text-align: center;
             }
-            .hero-roles { gap: 0.7rem; }
-            .role-pill { padding: 0.65rem 1.4rem; font-size: 0.85rem; }
 
             .godot-section {
                 flex-direction: column;
@@ -1251,8 +1391,6 @@
             .hero           { padding: 6.5rem 1.2rem 2.5rem; }
             .hero-name      { font-size: 2rem; }
             .hero-eyebrow   { font-size: 0.78rem; letter-spacing: 3px; }
-            .hero-roles     { flex-direction: column; width: 100%; align-items: center; }
-            .role-pill      { width: 100%; max-width: 260px; text-align: center; }
             .hero-cta-btn   { width: 100%; max-width: 260px; text-align: center; }
             .godot-section  { padding: 4rem 1.2rem; }
             .flutter-section{ padding: 4rem 1.2rem; }
@@ -1268,7 +1406,7 @@
     <div class="page-wrapper">
 
         <!-- ══════════════════════════════════════
-             SECTION 1 — HERO (Monjhie Dulay Portfolio)
+             SECTION 1 - HERO (Monjhie Dulay Portfolio)
         ══════════════════════════════════════ -->
         <section class="hero">
             <div class="hero-center">
@@ -1288,7 +1426,31 @@
         </section>
 
         <!-- ══════════════════════════════════════
-             SECTION 2 — GODOT (dark gradient background)
+             SECTION — WALKER (color-shifting strip, just tall enough
+             for the walking girl + her banner)
+        ══════════════════════════════════════ -->
+        <section class="walker-section">
+            <div class="walker-strip" aria-hidden="true">
+                <div class="walker" id="heroWalker">
+                    <div class="walker-banner" id="walkerBanner">
+                        <span>Flutter Developer</span><span class="dot">•</span>
+                        <span>Game Developer</span><span class="dot">•</span>
+                        <span>Web Developer</span><span class="dot">•</span>
+                        <span>UI / UX Designer</span><span class="dot">•</span>
+                        <span>Godot &amp; GDScript</span><span class="dot">•</span>
+                        <span>Laravel &amp; PHP</span>
+                    </div>
+                    <img
+                        src="{{ asset('images/walking_girl.gif') }}"
+                        alt=""
+                        class="walker-gif"
+                    >
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════
+             SECTION 3 - GODOT (dark gradient background)
         ══════════════════════════════════════ -->
         <section class="godot-section" id="godotSection">
 
@@ -1316,16 +1478,13 @@
                 <h2 class="godot-title">Building Games<br>with Godot</h2>
                 <div class="godot-divider"></div>
                 <p class="godot-text">
-                    During my time as a trainee at
-                    <strong>GoCrayons Digital Inc.</strong>,
-                    I had the opportunity to dive deep into game development
-                    using the <strong>Godot Engine</strong>. Working in a
-                    professional environment pushed me to level up my skills
-                    from designing game mechanics and building 2D levels to
-                    scripting interactive gameplay using <strong>GDScript</strong>.
-                    It was an experience that shaped how I think about
-                    game design, problem solving, and creative storytelling
-                    through interactive media.
+                    During my time as a trainee at <strong>GoCrayons Digital Inc.</strong>,
+                    I got the chance to dive into game development using the
+                    <strong>Godot Engine</strong>. Being in a real studio setting pushed
+                    me to grow my skills, from designing game mechanics and building 2D
+                    levels to scripting interactive gameplay in <strong>GDScript</strong>.
+                    That experience really shaped the way I think about game design,
+                    problem solving, and telling stories through interactive media.
                 </p>
                 <div class="godot-tags">
                     <span class="godot-tag">🎮 Godot Engine</span>
@@ -1342,7 +1501,7 @@
         </section>
 
         <!-- ══════════════════════════════════════
-             SECTION 3 — FLUTTER (soft gradient background)
+             SECTION 4 - FLUTTER (soft gradient background)
         ══════════════════════════════════════ -->
         <section class="flutter-section" id="flutterSection">
 
@@ -1351,14 +1510,14 @@
                 <h2 class="flutter-title">Building Apps<br>with Flutter</h2>
                 <div class="flutter-divider"></div>
                 <p class="flutter-text">
-                    I built the <strong>Olivarez College Tagaytay Canteen Ordering System</strong>
-                    — a full-featured mobile app developed with <strong>Flutter</strong>
-                    that lets students browse the canteen menu, place orders, and
-                    track them in real time. The app uses <strong>Firebase</strong>
-                    as the primary database for live order management and authentication,
-                    and <strong>Supabase</strong> for efficient image storage of menu items.
-                    It was a hands-on experience that taught me how to architect a
-                    real-world mobile system from design to deployment.
+                    I built the <strong>Olivarez College Tagaytay Canteen Ordering System</strong>,
+                    a complete mobile app developed with <strong>Flutter</strong> that lets
+                    students browse the canteen menu, place orders, and track them in real
+                    time. The app uses <strong>Firebase</strong> as the main database for
+                    live order management and authentication, along with <strong>Supabase</strong>
+                    for handling menu item images efficiently. It was a practical experience
+                    that taught me how to build a real mobile system, from design all the
+                    way to deployment.
                 </p>
                 <div class="flutter-tags">
                     <span class="flutter-tag">💙 Flutter</span>
@@ -1399,7 +1558,7 @@
         </section>
 
         <!-- ══════════════════════════════════════
-             SECTION 4 — LARAVEL (dark gradient background)
+             SECTION 5 - LARAVEL (dark gradient background)
         ══════════════════════════════════════ -->
         <section class="laravel-section" id="laravelSection">
 
@@ -1421,15 +1580,14 @@
                 <h2 class="laravel-title">Built With<br>Laravel</h2>
                 <div class="laravel-divider"></div>
                 <p class="laravel-text">
-                    Fun fact — this very portfolio you're browsing right now was
-                    built using the <strong>Laravel</strong> framework. From the
-                    Blade templating engine powering every section on this page,
-                    to the clean <strong>MVC architecture</strong> and named
-                    <strong>routing</strong> handling navigation between pages,
-                    Laravel made it possible to structure this site the way a
-                    real-world web application should be built. It's the same
-                    framework I reach for whenever I need to ship a fast,
-                    maintainable, and well-organized PHP web app.
+                    Fun fact: this very portfolio you're browsing right now was built using
+                    the <strong>Laravel</strong> framework. From the Blade templating engine
+                    powering every section on this page, to the clean <strong>MVC
+                    architecture</strong> and named <strong>routing</strong> that handles
+                    navigation between pages, Laravel made it possible to structure this
+                    site the way a real web application should be built. It's the framework
+                    I reach for whenever I need to ship something fast, maintainable, and
+                    well organized.
                 </p>
                 <div class="laravel-tags">
                     <span class="laravel-tag">🔴 Laravel</span>
