@@ -751,6 +751,38 @@
                 </div>
             </section>
 
+            <!-- PROJECT — Fish Bone Shooter (Godot Game) -->
+            <section class="project-section" data-category="game">
+                <div class="project-media">
+                    <div class="project-media-frame">
+                        <img src="{{ asset('images/the_rat_killer_icon.png') }}" alt="Fish Bone Shooter"
+                             onerror="this.parentElement.innerHTML='<div class=\'project-media-placeholder\'>No Image</div>'">
+                    </div>
+                </div>
+                <div class="project-content">
+                    <div class="project-label-row">
+                        <p class="project-label">Game Development</p>
+                        <span class="project-year">2026</span>
+                    </div>
+                    <h2 class="project-title">9 Lives - The Rat Killer </h2>
+                    <div class="project-divider"></div>
+                    <p class="project-desc">
+                        A mini game where you can pick up power-ups to defeat the rats, and you
+                        must survive every wave. Built in Godot using GDScript.
+                    </p>
+                    <div class="project-tags">
+                        <span class="project-tag">🎮 Godot</span>
+                        <span class="project-tag">⚙️ GDScript</span>
+                    </div>
+                    <div class="project-actions">
+                        <a href="{{ asset('games/FishBoneShooter/Prarie King Tut.html') }}"
+                           class="project-btn project-btn-primary"
+                           target="_blank">Live Demo</a>
+                        <a href="#" class="project-btn project-btn-outline" target="_blank">GitHub</a>
+                    </div>
+                </div>
+            </section>
+
             <!-- PROJECT — Flutter App (Canteen Ordering App) -->
             <section class="project-section" data-category="application">
                 <div class="project-media">

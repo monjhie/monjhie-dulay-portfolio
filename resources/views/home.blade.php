@@ -338,6 +338,159 @@
             .walker-banner{ font-size: 0.5rem; padding: 0.3rem 0.7rem; }
         }
 
+        /* ══════════════════════════════════════
+           SECTION — FEATURED WORK CAROUSEL
+           Sits between the walker strip and the Godot section. A row of
+           project screenshots auto-scrolls sideways in an endless loop
+           (the track's item list is duplicated once in the markup and
+           the animation shifts it exactly -50%, so the seam between the
+           end of the list and the repeated start is invisible). Pauses
+           on hover so a visitor can actually look at a card.
+        ══════════════════════════════════════ */
+        .showcase-section {
+            position: relative;
+            padding: 6rem 0;
+            background: linear-gradient(135deg, #f5f3ff 0%, #eef2ff 45%, #fdf4ff 100%);
+            overflow: hidden;
+        }
+
+        .showcase-header {
+            text-align: center;
+            padding: 0 2rem;
+            margin-bottom: 3.5rem;
+        }
+
+        .showcase-label {
+            font-size: 0.9rem;
+            background: linear-gradient(90deg, #7c3aed, #db2777);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+
+        .showcase-title {
+            font-size: clamp(1.9rem, 3.2vw, 2.8rem);
+            font-weight: 900;
+            color: #1e1b4b;
+            margin-top: 0.6rem;
+        }
+
+        .showcase-title .highlight {
+            background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Fades the far left/right edges of the track to transparent so
+           cards don't just abruptly clip at the viewport edge. */
+        .showcase-track-wrap {
+            width: 100%;
+            overflow: hidden;
+            -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
+            mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
+        }
+
+        .showcase-track {
+            display: flex;
+            width: max-content;
+            gap: 2rem;
+            padding: 0 2rem;
+            animation: showcaseScroll 32s linear infinite;
+        }
+
+        .showcase-track:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes showcaseScroll {
+            from { transform: translateX(0); }
+            to   { transform: translateX(-50%); }
+        }
+
+        .showcase-card {
+            position: relative;
+            flex: 0 0 auto;
+            width: clamp(260px, 28vw, 360px);
+            border-radius: 16px;
+            overflow: hidden;
+            background-color: #ffffff;
+            border: 1px solid #ddd6fe;
+            box-shadow: 0 16px 36px rgba(139, 92, 246, 0.15);
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease, border-color 0.4s ease;
+        }
+
+        .showcase-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 24px 48px rgba(139, 92, 246, 0.28);
+            border-color: #c4b5fd;
+        }
+
+        .showcase-card-media {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            overflow: hidden;
+            background-color: #f0f0f0;
+        }
+
+        .showcase-card-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .showcase-card:hover .showcase-card-media img {
+            transform: scale(1.06);
+        }
+
+        .showcase-card-media-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #aaaaaa;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .showcase-card-info {
+            padding: 1.1rem 1.4rem 1.3rem;
+        }
+
+        .showcase-card-label {
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #7c3aed, #db2777);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .showcase-card-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #1e1b4b;
+            margin-top: 0.35rem;
+        }
+
+        @media (max-width: 640px) {
+            .showcase-section { padding: 4rem 0; }
+            .showcase-header { margin-bottom: 2.5rem; }
+            .showcase-track { gap: 1.2rem; }
+        }
+
         /* ── (old hero classes kept in case reused elsewhere) ── */
         .hero-left {
             flex: 1;
@@ -1426,6 +1579,115 @@
         </section>
 
         <!-- ══════════════════════════════════════
+             SECTION — FEATURED WORK (auto-scrolling carousel)
+             Item list appears twice in the markup back-to-back; the
+             track is exactly double width and the animation shifts it
+             -50%, so it loops seamlessly with no visible jump/reset.
+        ══════════════════════════════════════ -->
+        <section class="showcase-section" id="showcaseSection">
+            <div class="showcase-header">
+                <p class="showcase-label">Featured Work</p>
+                <h2 class="showcase-title">A Look at My <span class="highlight">Projects</span></h2>
+            </div>
+
+            <div class="showcase-track-wrap">
+                <div class="showcase-track" id="showcaseTrack">
+
+                    <!-- ── Set 1 ── -->
+                    <a href="{{ route('projects') }}" class="showcase-card">
+                        <div class="showcase-card-media">
+                            <img src="{{ asset('images/project_game_1.png') }}" alt="Wizard Curse"
+                                 onerror="this.parentElement.innerHTML='<div class=\'showcase-card-media-placeholder\'>No Image</div>'">
+                        </div>
+                        <div class="showcase-card-info">
+                            <p class="showcase-card-label">Game Development</p>
+                            <h3 class="showcase-card-title">Wizard Curse</h3>
+                        </div>
+                    </a>
+
+                    <a href="{{ route('projects') }}" class="showcase-card">
+                        <div class="showcase-card-media">
+                            <img src="{{ asset('images/the_rat_killer_icon.png') }}" alt="9 Lives - The Rat Killer"
+                                 onerror="this.parentElement.innerHTML='<div class=\'showcase-card-media-placeholder\'>No Image</div>'">
+                        </div>
+                        <div class="showcase-card-info">
+                            <p class="showcase-card-label">Game Development</p>
+                            <h3 class="showcase-card-title">9 Lives - The Rat Killer</h3>
+                        </div>
+                    </a>
+
+                    <a href="{{ route('projects') }}" class="showcase-card">
+                        <div class="showcase-card-media">
+                            <img src="{{ asset('CanteenOrderingAppPreview/canteen-ordering-app-thumbnail.png') }}" alt="Canteen Ordering App"
+                                 onerror="this.parentElement.innerHTML='<div class=\'showcase-card-media-placeholder\'>No Image</div>'">
+                        </div>
+                        <div class="showcase-card-info">
+                            <p class="showcase-card-label">Mobile Development</p>
+                            <h3 class="showcase-card-title">Canteen Ordering App</h3>
+                        </div>
+                    </a>
+
+                    <a href="{{ route('projects') }}" class="showcase-card">
+                        <div class="showcase-card-media">
+                            <img src="{{ asset('images/project_website_1.png') }}" alt="Meeko's Haven"
+                                 onerror="this.parentElement.innerHTML='<div class=\'showcase-card-media-placeholder\'>No Image</div>'">
+                        </div>
+                        <div class="showcase-card-info">
+                            <p class="showcase-card-label">Web Development</p>
+                            <h3 class="showcase-card-title">Meeko's Haven</h3>
+                        </div>
+                    </a>
+
+                    <!-- ── Set 2 (exact duplicate, makes the loop seamless) ── -->
+                    <a href="{{ route('projects') }}" class="showcase-card" aria-hidden="true" tabindex="-1">
+                        <div class="showcase-card-media">
+                            <img src="{{ asset('images/project_game_1.png') }}" alt="" aria-hidden="true"
+                                 onerror="this.parentElement.innerHTML='<div class=\'showcase-card-media-placeholder\'>No Image</div>'">
+                        </div>
+                        <div class="showcase-card-info">
+                            <p class="showcase-card-label">Game Development</p>
+                            <h3 class="showcase-card-title">Wizard Curse</h3>
+                        </div>
+                    </a>
+
+                    <a href="{{ route('projects') }}" class="showcase-card" aria-hidden="true" tabindex="-1">
+                        <div class="showcase-card-media">
+                            <img src="{{ asset('images/the_rat_killer_icon.png') }}" alt="" aria-hidden="true"
+                                 onerror="this.parentElement.innerHTML='<div class=\'showcase-card-media-placeholder\'>No Image</div>'">
+                        </div>
+                        <div class="showcase-card-info">
+                            <p class="showcase-card-label">Game Development</p>
+                            <h3 class="showcase-card-title">9 Lives - The Rat Killer</h3>
+                        </div>
+                    </a>
+
+                    <a href="{{ route('projects') }}" class="showcase-card" aria-hidden="true" tabindex="-1">
+                        <div class="showcase-card-media">
+                            <img src="{{ asset('CanteenOrderingAppPreview/canteen-ordering-app-thumbnail.png') }}" alt="" aria-hidden="true"
+                                 onerror="this.parentElement.innerHTML='<div class=\'showcase-card-media-placeholder\'>No Image</div>'">
+                        </div>
+                        <div class="showcase-card-info">
+                            <p class="showcase-card-label">Mobile Development</p>
+                            <h3 class="showcase-card-title">Canteen Ordering App</h3>
+                        </div>
+                    </a>
+
+                    <a href="{{ route('projects') }}" class="showcase-card" aria-hidden="true" tabindex="-1">
+                        <div class="showcase-card-media">
+                            <img src="{{ asset('images/project_website_1.png') }}" alt="" aria-hidden="true"
+                                 onerror="this.parentElement.innerHTML='<div class=\'showcase-card-media-placeholder\'>No Image</div>'">
+                        </div>
+                        <div class="showcase-card-info">
+                            <p class="showcase-card-label">Web Development</p>
+                            <h3 class="showcase-card-title">Meeko's Haven</h3>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════
              SECTION — WALKER (color-shifting strip, just tall enough
              for the walking girl + her banner)
         ══════════════════════════════════════ -->
@@ -1695,6 +1957,25 @@
         window.addEventListener('scroll', updateScrollIndicator, { passive: true });
         window.addEventListener('resize', updateScrollIndicator, { passive: true });
         updateScrollIndicator();
+
+        /* ── SCROLL-TRIGGERED ANIMATIONS (Showcase carousel fades in) ── */
+        const showcaseSection = document.querySelector('#showcaseSection');
+        const showcaseTargets = showcaseSection.querySelectorAll('.showcase-header, .showcase-track-wrap');
+
+        showcaseTargets.forEach((el, i) => {
+            el.style.opacity    = '0';
+            el.style.transform  = 'translateY(24px)';
+            el.style.transition = `opacity 0.6s ease ${i * 0.1}s, transform 0.6s ease ${i * 0.1}s`;
+        });
+
+        new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    showcaseTargets.forEach(el => { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; });
+                    obs.disconnect();
+                }
+            });
+        }, { threshold: 0.15 }).observe(showcaseSection);
 
         /* ── SCROLL-TRIGGERED ANIMATIONS (Godot) ── */
         const godotSection = document.querySelector('#godotSection');
