@@ -525,7 +525,7 @@
                     3. Copy the endpoint they give you (looks like https://formspree.io/f/xxxxxxxx)
                     4. Paste it in place of "https://formspree.io/f/YOUR_FORM_ID" below
                 -->
-                <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                <form id="contactForm" action="https://formspree.io/f/xyegpwzo" method="POST">
 
                     <div class="form-group">
                         <label class="form-label" for="name">Your Name</label>
