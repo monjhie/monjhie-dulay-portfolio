@@ -1002,7 +1002,7 @@
                     <!-- Call-to-action buttons -->
                     <div class="cta-row">
                         <a href="/contact" class="btn btn-primary">Get in Touch</a>
-                        <a href="{{ asset('resume/Resume.pdf') }}" class="btn btn-outline" target="_blank" download="Monjhie Dulay - Developer.pdf">Download CV</a>
+                        <a href="{{ asset('resume/Monjhie Dulay - Developer.pdf') }}" class="btn btn-outline" target="_blank" download="Monjhie Dulay - Developer.pdf">Download CV</a>
                     </div>
 
                 </div><!-- end .about-bio -->
